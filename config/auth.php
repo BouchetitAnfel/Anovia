@@ -60,10 +60,11 @@ return [
     */
 
     'providers' => [
-        'employees' => [  // This needs to match the guard's provider
-           'driver' => 'eloquent',  // The driver should be 'eloquent'
-           'model' => App\Models\Employee::class,  // You need to specify the model
+        'employees' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Employee::class,
         ],
+
 
         // 'users' => [
         //     'driver' => 'database',
