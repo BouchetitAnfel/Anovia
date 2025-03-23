@@ -11,14 +11,14 @@ class EmployeeSeeder extends Seeder
     public function run()
     {
         Employee::updateOrCreate(
-            ['Email' => 'john@example.com'],
+            ['Email' => '3bda9aWasmo@example.com'],
             [
-                'first_name' => 'John',
-                'last_name'  => 'Doe',
-                'Adresse'    => '123 Main St',
-                'ccp'        => '123456',
-                'Role'       => 'admin',
-                'hire_date'  => '2023-01-01',
+                'first_name' => '3bda9a',
+                'last_name'  => 'Wasmo',
+                'Adresse'    => 'Ain Toutaa',
+                'ccp'        => '1234567',
+                'Role'       => 'manager',
+                'hire_date'  => '2005-07-24',
                 'password'   => Hash::make('mysecretpassword'),
             ]
         );
