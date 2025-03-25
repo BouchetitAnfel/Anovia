@@ -44,7 +44,7 @@ class EmployeeAuthController extends Controller
      */
     public function logout(Request $request)
     {
-        $this->authService->logout($request->user());
+        $this->authService->logout($request); // Pass the full request
         return response()->json(['message' => 'Successfully logged out']);
     }
 

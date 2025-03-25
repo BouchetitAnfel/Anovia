@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Models\Employee;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
+
 
 class EmployeeAuthService
 {
@@ -19,14 +21,12 @@ class EmployeeAuthService
         $email = $credentials['email'] ?? null;
         $password = $credentials['password'] ?? null;
 
-        // Find employee by email - note the capitalized 'Email' based on your me() method
         $employee = Employee::where('Email', $email)->first();
 
         if (!$employee || !Hash::check($password, $employee->password)) {
             throw new \Exception('Invalid credentials');
         }
 
-        // Create token using Passport
         $token = $employee->createToken('EmployeeToken')->accessToken;
 
         return [
@@ -47,11 +47,20 @@ class EmployeeAuthService
      * @param Employee $employee
      * @return void
      */
-    public function logout($employee)
+    public function logout(Request $request)
     {
+        $employee = $request->user();
+
+        if ($employee) {
         // Revoke all tokens
-        $employee->tokens->each(function ($token) {
-            $token->revoke();
-        });
+                $employee->tokens->each(function ($token) {
+                $token->revoke();
+            });
+
+            return response()->json(['message' => 'Logged out successfully']);
+        }
+
+        return response()->json(['error' => 'Unauthorized'], 401);
     }
+
 }
