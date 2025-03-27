@@ -40,6 +40,10 @@ return [
             'driver' => 'passport',
             'provider' => 'employees',
         ],
+        'client-api' => [
+            'driver' => 'passport',
+            'provider' => 'clients',
+        ],
     ],
 
     /*
@@ -66,10 +70,10 @@ return [
         ],
 
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'clients' => [
+            'driver' => 'eloquent',
+            'table' => App\Models\client::class,
+        ],
     ],
 
     /*

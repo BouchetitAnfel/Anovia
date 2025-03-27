@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 class EmployeeAuthService
 {
     /**
-     * Handle employee login
      *
      * @param array $credentials
      * @return array
@@ -23,26 +22,35 @@ class EmployeeAuthService
 
         $employee = Employee::where('Email', $email)->first();
 
-        if (!$employee || !Hash::check($password, $employee->password)) {
-            throw new \Exception('Invalid credentials');
+        if (!$employee) {
+            throw new \Exception('Employee not found');
+        }
+
+        if (!Hash::check($password, $employee->password)) {
+            throw new \Exception('Invalid password');
         }
 
         $token = $employee->createToken('EmployeeToken')->accessToken;
 
         return [
             'token' => $token,
-            'user' => [
-                'id' => $employee->id,
-                'first_name' => $employee->{'first_name'},
-                'last_name' => $employee->{'last_name'},
-                'email' => $employee->Email,
-                'role' => $employee->Role,
-            ]
+            'redirect' => $this->redirectionTo($employee->role)
         ];
     }
 
+    function redirectionTo ($role) {
+        switch ($role){
+            case 'admin':
+                return '/admin/dashborad';
+            case 'manager' :
+                return '/manager/dashborad';
+            case 'receptionist' :
+                return '/receptionist/dashboard';
+            case  'housekeeper';
+                return '/housekeeper/dashboard';
+        }
+    }
     /**
-     * Handle employee logout
      *
      * @param Employee $employee
      * @return void
@@ -52,7 +60,6 @@ class EmployeeAuthService
         $employee = $request->user();
 
         if ($employee) {
-        // Revoke all tokens
                 $employee->tokens->each(function ($token) {
                 $token->revoke();
             });

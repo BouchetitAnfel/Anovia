@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\Employees;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\EmployeeAuthService;
-use Illuminate\Http\Request;
 
 class EmployeeAuthController extends Controller
 {
@@ -23,17 +23,17 @@ class EmployeeAuthController extends Controller
      */
     public function login(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
         try {
-            $result = $this->authService->login($request->only('email', 'password'));
+            $result = $this->authService->login(
+                $request->only('email', 'password')
+            );
             return response()->json($result);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 401);
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 401);
         }
+
     }
 
     /**
