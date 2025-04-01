@@ -19,8 +19,10 @@ return new class extends Migration
             $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
 
             $table->string('name_client');
-            $table->integer('room_number');
-            $table->enum('room_type', ['single', 'double', 'suite']);
+
+            $table->unsignedBigInteger('room_id');
+            $table->foreign('room_id')->references('id')->on('rooms')->onDelete('cascade');
+
             $table->date('date_reservation');
             $table->date('date_checkin');
             $table->date('date_checkout');
@@ -30,7 +32,7 @@ return new class extends Migration
             $table->foreign('receptionist_id')->references('id')->on('employees')->onDelete('set null');
 
             $table->enum('reservation_status', ['pending', 'confirmed', 'canceled']);
-            $table->integer('total_price');
+            $table->decimal('total_price', 10, 2);
             $table->timestamps();
         });
     }
