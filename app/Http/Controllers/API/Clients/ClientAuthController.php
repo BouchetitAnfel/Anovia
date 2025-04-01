@@ -43,9 +43,11 @@ class ClientAuthController extends Controller
     public function login(Request $request)
     {
         try {
+
             $result = $this->authService->login(
                 $request->only('email', 'password')
             );
+
             return response()->json($result);
         } catch (\Exception $e) {
             return response()->json([
@@ -78,10 +80,7 @@ class ClientAuthController extends Controller
      */
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
-
-        return response()->json([
-            'message' => 'Successfully logged out'
-        ]);
+        $this->authService->logout($request);
+        return response()->json(['message' => 'Successfully logged out']);
     }
 }

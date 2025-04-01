@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Client;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -18,8 +19,8 @@ class ClientAuthService
     public function register(array $data): array
     {
         $validatedData = validator($data, [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
+            'first_name' => 'required',
+            'last_name' => 'required',
             'email' => 'required|email|unique:clients,email',
             'password' => 'required|min:8'
         ])->validate();
@@ -34,7 +35,7 @@ class ClientAuthService
         $token = $client->createToken('ClientToken', ['client-api'])->accessToken;
 
         return [
-            'message' => 'Client registered successfully',
+            'message' => 'Registered successfully',
             'token' => $token
         ];
     }
@@ -49,16 +50,25 @@ class ClientAuthService
         $client = client::where('Email', $email)->first();
 
         if (!$client) {
-            throw new \Exception('User not found');
+            throw new \Exception('User Not found');
         }
         if (!Hash::check($password, $client->password)) {
             throw new \Exception('Invalid password');
         }
-        $token = $client->createToken('UserToken')->accessToken;
+
+        $token = $client->createToken('clientToken', ['client-api'])->accessToken;
 
         return [
             'token' => $token,
-            'client' => $client
         ];
+    }
+
+    public function logout(Request $request)
+    {
+
+        $client = $request->user();
+        $client->token()->revoke();
+
+        return response()->json(['message' => 'Client User Logged out successfully']);
     }
 }

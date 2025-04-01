@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
         Passport::personalAccessTokensExpireIn(now()->addMonths(6));
         Passport::tokensCan([
             'client-api' => 'Client API access',
-            'employees' => 'Employee API access'
+            'api' => 'Employee API access'
         ]);
     }
 }

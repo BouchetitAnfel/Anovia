@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Employees;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\EmployeeAuthService;
+use Illuminate\Http\JsonResponse;
 
 class EmployeeAuthController extends Controller
 {
@@ -28,6 +29,7 @@ class EmployeeAuthController extends Controller
                 $request->only('email', 'password')
             );
             return response()->json($result);
+
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
@@ -37,19 +39,16 @@ class EmployeeAuthController extends Controller
     }
 
     /**
-     * Handle employee logout
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function logout(Request $request)
     {
-        $this->authService->logout($request); // Pass the full request
-        return response()->json(['message' => 'Successfully logged out']);
+        return $this->authService->logout($request);
     }
 
     /**
-     * Get the authenticated employee
      *
      * @param Request $request
      * @return \Illuminate\Http\Response

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Employee;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
@@ -30,7 +31,7 @@ class EmployeeAuthService
             throw new \Exception('Invalid password');
         }
 
-        $token = $employee->createToken('EmployeeToken')->accessToken;
+        $token = $employee->createToken('EmployeeToken', ['api'])->accessToken;
 
         return [
             'token' => $token,
@@ -48,6 +49,8 @@ class EmployeeAuthService
                 return '/receptionist/dashboard';
             case  'housekeeper';
                 return '/housekeeper/dashboard';
+            case 'default':
+                return '/dashborad';
         }
     }
     /**
@@ -58,16 +61,9 @@ class EmployeeAuthService
     public function logout(Request $request)
     {
         $employee = $request->user();
+        $employee->token()->revoke();
 
-        if ($employee) {
-                $employee->tokens->each(function ($token) {
-                $token->revoke();
-            });
-
-            return response()->json(['message' => 'Logged out successfully']);
-        }
-
-        return response()->json(['error' => 'Unauthorized'], 401);
+        return response()->json(['message' => 'Employee Logged out successfully']);
     }
 
 }

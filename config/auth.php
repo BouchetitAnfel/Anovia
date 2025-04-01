@@ -40,6 +40,7 @@ return [
             'driver' => 'passport',
             'provider' => 'employees',
         ],
+
         'client-api' => [
             'driver' => 'passport',
             'provider' => 'clients',
@@ -69,10 +70,9 @@ return [
             'model' => App\Models\Employee::class,
         ],
 
-
         'clients' => [
             'driver' => 'eloquent',
-            'table' => App\Models\client::class,
+            'model' => App\Models\client::class,
         ],
     ],
 
