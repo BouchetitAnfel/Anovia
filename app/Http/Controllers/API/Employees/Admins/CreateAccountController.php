@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admins;
+namespace App\Http\Controllers\Employees\Admins;
 
 use App\Models\Employee;
 use Illuminate\Http\Request;
@@ -12,7 +12,7 @@ class CreateAccountController extends Controller
 
 
 
-    public function __invoke(Request $request)
+    public function CreateAccount(Request $request)
     {
         $validatedData = $request->validate([
             'first_name' => 'required',
