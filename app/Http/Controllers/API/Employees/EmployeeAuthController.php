@@ -16,12 +16,7 @@ class EmployeeAuthController extends Controller
         $this->authService = $authService;
     }
 
-    /**
-     * Handle employee login request
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function login(Request $request)
     {
         try {
@@ -38,21 +33,13 @@ class EmployeeAuthController extends Controller
 
     }
 
-    /**
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function logout(Request $request)
     {
         return $this->authService->logout($request);
     }
 
-    /**
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function me(Request $request)
     {
         $employee = $request->user();

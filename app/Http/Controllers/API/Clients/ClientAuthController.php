@@ -15,11 +15,7 @@ class ClientAuthController extends Controller
         $this->authService = $authService;
     }
 
-    /**
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
+
     public function register(Request $request)
     {
         try {
@@ -35,11 +31,7 @@ class ClientAuthController extends Controller
         }
     }
 
-    /**
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
+
     public function login(Request $request)
     {
         try {
@@ -56,11 +48,7 @@ class ClientAuthController extends Controller
         }
     }
 
-    /**
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
+
     public function profile(Request $request)
     {
         $client = $request->user();
@@ -73,11 +61,7 @@ class ClientAuthController extends Controller
         ]);
     }
 
-    /**
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
+
     public function logout(Request $request)
     {
         $this->authService->logout($request);
