@@ -10,7 +10,7 @@ use App\Http\Controllers\API\Employees\Admins\StockManagementController;
 
 Route::post('/login', [EmployeeAuthController::class, 'login'])->name('api.employee.login');
 Route::middleware('auth:api')->group(function () {
-    Route::get('/me', action: [EmployeeAuthController::class, 'me']);
+    Route::get('/profile', action: [EmployeeAuthController::class, 'me']);
     Route::post('/logout', [EmployeeAuthController::class, 'logout']);
 });
 
@@ -30,11 +30,10 @@ Route::middleware('auth:client-api')->group(function () {
     Route::post('/client/logout', [ClientAuthController::class, 'logout']);
 });
 
-Route::middleware('auth:api')->prefix('reservations')->group(function () {
-    Route::post('/Client', [ReservationController::class, 'store']);
-
-    Route::get('/Client', [ReservationController::class, 'listReservations']);
-    Route::delete('/{id}', [ReservationController::class, 'cancel']);
+Route::middleware('auth:client-api')->prefix('reservations')->group(function () {
+    Route::post('/NewReservation', [ReservationController::class, 'store']);
+    Route::get('/ListReservation', [ReservationController::class, 'listReservations']);
+    Route::delete('/Cancel/{id}', [ReservationController::class, 'cancel']);
 });
 
 
