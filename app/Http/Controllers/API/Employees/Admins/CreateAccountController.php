@@ -9,9 +9,6 @@ use App\Http\Controllers\Controller;
 
 class CreateAccountController extends Controller
 {
-
-
-
     public function CreateAccount(Request $request)
     {
         $validatedData = $request->validate([

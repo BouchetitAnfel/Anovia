@@ -13,10 +13,6 @@ use Carbon\Carbon;
 
 class ReservationController extends Controller
 {
-    /*public function __construct()
-    {
-       // $this->middleware('auth:RoleMiddlware');
-    }*/
 
     public function store(Request $request)
     {
@@ -26,9 +22,9 @@ class ReservationController extends Controller
             'date_checkout' => 'required|date|after:date_checkin',
         ]);
 
-        $client = Auth::user(); // ✅ FIXED
+        $client = Auth::user();
 
-        $room = Room::findOrFail($request->room_id); // ✅ FIXED
+        $room = Room::findOrFail($request->room_id);
 
         $isAvailable = !Reservation::where('room_id', $room->id)
             ->where('date_checkin', '<', $request->date_checkout)

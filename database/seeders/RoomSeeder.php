@@ -8,6 +8,6 @@ class RoomSeeder extends Seeder
 {
     public function run()
     {
-        Room::factory()->count(10)->create();  // Create 10 rooms
+        Room::factory()->count(10)->create();
     }
 }

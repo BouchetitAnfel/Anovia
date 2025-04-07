@@ -12,11 +12,9 @@ class ReservationTest extends TestCase
 {
     public function testCreateReservation()
     {
-        // Create a test client and room
         $client = Client::factory()->create();
         $room = Room::factory()->create(['price_per_night' => 100]);
 
-        // Authenticate using Passport
         Passport::actingAs($client);
 
         $response = $this->postJson('/api/reservations', [
