@@ -1,15 +1,13 @@
 <?php
-
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Employee;
+use App\Models\Client;
 
-
-class EmployeeSeeder extends Seeder
+class ClientSeeder extends Seeder
 {
     public function run()
     {
-        Employee::factory(10)->create();
+        Client::factory()->count(10)->create();
     }
 }

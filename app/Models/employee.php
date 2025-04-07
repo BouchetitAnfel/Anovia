@@ -14,7 +14,6 @@ class Employee extends Authenticatable
     protected $table = 'employees';
     protected $primaryKey = 'id';
 
-    // Adjust fillable fields based on your actual column names
     protected $fillable = [
         'first_name',
         'last_name',
@@ -30,9 +29,10 @@ class Employee extends Authenticatable
         'password',
     ];
 
-    public function getEmailForPasswordReset()
+
+    public function handledReservations()
     {
-        return $this->Email; //galk laravel par default endo email wana msmytha Email so t7taj
+        return $this->hasMany(Reservation::class, 'receptionist_id');
     }
 
 }

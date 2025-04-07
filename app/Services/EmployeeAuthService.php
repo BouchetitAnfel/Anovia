@@ -3,13 +3,15 @@
 namespace App\Services;
 
 use App\Models\Employee;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
+
 
 class EmployeeAuthService
 {
     /**
-     * Handle employee login
      *
      * @param array $credentials
      * @return array
@@ -19,39 +21,49 @@ class EmployeeAuthService
         $email = $credentials['email'] ?? null;
         $password = $credentials['password'] ?? null;
 
-        // Find employee by email - note the capitalized 'Email' based on your me() method
         $employee = Employee::where('Email', $email)->first();
 
-        if (!$employee || !Hash::check($password, $employee->password)) {
-            throw new \Exception('Invalid credentials');
+        if (!$employee) {
+            throw new \Exception('Employee not found');
         }
 
-        // Create token using Passport
-        $token = $employee->createToken('EmployeeToken')->accessToken;
+        if (!Hash::check($password, $employee->password)) {
+            throw new \Exception('Invalid password');
+        }
+
+        $token = $employee->createToken('EmployeeToken', ['api'])->accessToken;
 
         return [
             'token' => $token,
-            'user' => [
-                'id' => $employee->id,
-                'first_name' => $employee->{'first_name'},
-                'last_name' => $employee->{'last_name'},
-                'email' => $employee->Email,
-                'role' => $employee->Role,
-            ]
+            'redirect' => $this->redirectionTo($employee->role)
         ];
     }
 
+    function redirectionTo ($role) {
+        switch ($role){
+            case 'admin':
+                return '/admin/dashborad';
+            case 'manager' :
+                return '/manager/dashborad';
+            case 'receptionist' :
+                return '/receptionist/dashboard';
+            case  'housekeeper';
+                return '/housekeeper/dashboard';
+            case 'default':
+                return '/dashborad';
+        }
+    }
     /**
-     * Handle employee logout
      *
      * @param Employee $employee
      * @return void
      */
-    public function logout($employee)
+    public function logout(Request $request)
     {
-        // Revoke all tokens
-        $employee->tokens->each(function ($token) {
-            $token->revoke();
-        });
+        $employee = $request->user();
+        $employee->token()->revoke();
+
+        return response()->json(['message' => 'Employee Logged out successfully']);
     }
+
 }

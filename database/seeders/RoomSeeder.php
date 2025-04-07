@@ -1,15 +1,13 @@
 <?php
-
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Employee;
+use App\Models\Room;
 
-
-class EmployeeSeeder extends Seeder
+class RoomSeeder extends Seeder
 {
     public function run()
     {
-        Employee::factory(10)->create();
+        Room::factory()->count(10)->create();
     }
 }
