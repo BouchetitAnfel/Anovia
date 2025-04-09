@@ -1,0 +1,403 @@
+@import url('https://fonts.googleapis.com/css2?family=Aboreto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f4f8;
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+    font-family: 'Quicksand', sans-serif;
+
+}
+
+.imagegroup {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.groupe2, .groupe3 {
+    width: 25%;
+    max-width: 350px;
+    height: auto;
+    position: absolute;
+    z-index: 1;
+}
+
+.groupe2 {
+    bottom: -50px;
+    right: -50px;
+}
+
+.groupe3 {
+    top: -50px;
+    left: -50px;
+}
+
+.login-container {
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    max-width: 1000px;
+    height: 60vh;
+    max-height: 700px;
+    min-height: 500px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    overflow: hidden;
+}
+
+.background-shapes {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.half-circle-three {
+    position: absolute;
+    width: 740px;
+    height: 620px;
+    background: #adc9dd;
+    border-radius: 70%;
+    right: -500px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.5;
+}
+
+.half-circle-two {
+    position: absolute;
+    width: 770px;
+    height: 620px;
+    background: #c3d8e7;
+    border-radius: 70%;
+    right: -450px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.3;
+}
+
+.half-circle-one {
+    position: absolute;
+    width: 800px;
+    height: 620px;
+    background:#e3edf4;
+    border-radius: 90%;
+    right: -400px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.2;
+}
+
+.laptop {
+    width: 47%;
+    max-width: 500px;
+    height: auto;
+    z-index: 3;
+    position: absolute;
+    right: 10px;
+    top: 20%;
+    transform: translateY(-50%);
+    margin-top: -30px;
+    transition: all 0.3s ease;
+}
+
+.logo {
+    position: absolute;
+    width: 7vw;
+    max-width: 90px;
+    min-width: 50px;
+    top: 10px;
+    left: -1px;
+}
+.form-container {
+    font-family: Quicksand, system-ui;
+    position: absolute;
+    width: 45%;
+    height: auto;
+    left: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  
+    align-items: center; /* Changed from flex-start to center */
+    text-align: center; /* Added to center the text */
+    transition: all 0.3s ease;
+    padding: 0 40px;
+}
+
+h1 {
+    font-family: "Aboreto", system-ui;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #333;
+    text-align: center; /* Ensure title is centered */
+    width: 100%; /* Ensure full width for centering */
+}
+
+p {
+    font-family:" Quicksand", system-ui, sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0%;
+    line-height: 100%;
+    color: #666;
+    font-weight: 400;
+    margin-bottom: 20px;
+    text-align: center; /* Center the subtext */
+    width: 100%; /* Ensure full width for centering */
+}
+.inputcss input, .password-container input {
+    font-family:" Quicksand", system-ui, sans-serif;
+    padding: 15px 10px;
+    border: 1px solid #b3d9ff;
+    border-radius: 13px;
+    font-size: 16px;
+    color: #333;
+    outline: none;
+    transition: all 0.3s ease;
+    width: 130%;
+
+}
+.inputcss{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  
+    align-items: center; 
+    text-align: center;
+
+}
+
+.inputcss input::placeholder, 
+.password-container input::placeholder {
+    color: #a0a0a0;
+    font-size: 15px;
+}
+
+.password-container {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  
+    align-items: center; 
+    text-align: center;
+    position: relative;
+    width: 100%;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #888;
+    z-index: 10;
+}
+
+.inputcss input:focus, 
+.password-container input:focus {
+    border-color: #b675b1;
+    box-shadow: 0 0 5px #b675b1;
+}
+
+.password-options {
+    width: 50%;
+    position: absolute;
+    right: 20px;
+
+}
+.password-options a {
+    color: #b675b1;
+    text-decoration: none;
+    font-size: 10px;
+    transition: color 0.3s;
+
+}
+
+.password-options a:hover {
+    color: #b675b1;
+    text-decoration: underline;
+}
+
+button {
+    width: 50%; 
+    margin-top: 50px;
+    padding: 12px 10px;
+    border-color: #80bfff;
+    border-radius: 35px;
+    font-size: 16px;
+    color: black;
+    background-color: white;
+    cursor: pointer;
+    font-family: "Quicksand", system-ui, sans-serif;
+    transition: all 0.3s ease;
+}
+button:disabled {
+    background: #b0b0b0;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+/* Media Queries for Responsiveness */
+@media screen and (max-width: 1024px) {
+    .login-container {
+        width: 70%;
+        max-width: 800px;
+    }
+
+    .half-circle-one, .half-circle-two, .half-circle-three {
+        transform: translateY(-50%) scale(0.8);
+        right: -450px;
+    }
+    
+    .form-container {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .login-container {
+        width: 80%;
+        height: 85vh;
+    }
+    
+    .laptop {
+        width: 35%;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    
+    .form-container {
+        width: 55%;
+        left: 20px;
+    }
+    
+    .half-circle-one, .half-circle-two, .half-circle-three {
+        transform: translateY(-50%) scale(0.7);
+        right: -500px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .login-container {
+        flex-direction: column;
+        width: 85%;
+        height: auto;
+        min-height: 70vh;
+    }
+    
+    .logo {
+        width: 15vw;
+        min-width: 40px;
+    }
+    
+    .laptop {
+        width: 45%;
+        max-width: 200px;
+        position: relative;
+        right: auto;
+        top: auto;
+        transform: none;
+        margin: 60px auto 0;
+    }
+    
+    .form-container {
+        position: relative;
+        width: 90%;
+        left: 0;
+        top: 0;
+        transform: none;
+        margin: 230px auto 40px;
+    }
+    
+    .half-circle-one, .half-circle-two, .half-circle-three {
+        width: 400px;
+        height: 400px;
+        top: auto;
+        bottom: -300px;
+        right: -150px;
+        transform: none;
+    }
+    
+    .inputcss input, .password-container input {
+        width: 90%;
+    }
+    
+    
+    
+    .password-options {
+        width: 90%;
+    }
+    
+    .groupe2, .groupe3 {
+        width: 35%;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .login-container {
+        width: 90%;
+        height: 90vh;
+    }
+    
+    .laptop {
+        width: 50%;
+        margin-top: 40px;
+    }
+    
+    .form-container {
+        margin-top: 180px;
+    }
+    
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    p {
+        font-size: 0.9rem;
+    }
+    
+    .inputcss {
+        margin-top: 30px;
+    }
+    
+    button {
+        width: 120px;
+        padding: 12px 8px;
+    }
+}
+
+@media screen and (max-height: 700px) and (min-width: 577px) {
+    .login-container {
+        height: 90vh;
+    }
+    
+    .laptop {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    
+    .inputcss {
+        margin-top: 30px;
+    }
+    
+    .password-options {
+        margin-bottom: 20px;
+    }
+}
