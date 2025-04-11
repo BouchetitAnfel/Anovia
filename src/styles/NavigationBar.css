@@ -5,7 +5,7 @@
     top: 0;
     left: 50px; /* Match sidebar width */
     right: 0;
-    height: 77px;
+    height: 90px;
     background-color: white;
     border-bottom: 1px solid #e0e0e0;
     display: flex;
@@ -19,8 +19,9 @@
 .search-container {
     position: relative;
     flex-grow: 1;
-    max-width: 500px;
-    margin-left: 160px;
+    max-width: 600px;
+    height: auto;
+    margin-left: 200px;
 }
 
 .search-input {
@@ -58,6 +59,14 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 8px;
+    border-radius: 24px;
+}
+
+.user-profile:hover {
+    background-color: #f5f5f5;
 }
   
 .user-info {
@@ -80,6 +89,12 @@
     height: 40px;
     border-radius: 50%;
     background-color: #9b5a96;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
 }
   
 .dashboard-content {

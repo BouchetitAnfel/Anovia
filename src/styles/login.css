@@ -46,7 +46,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 70%;
+    width: 200%;
     max-width: 1000px;
     height: 60vh;
     max-height: 700px;
@@ -105,13 +105,13 @@ body {
 }
 
 .laptop {
-    width: 47%;
+    width: 40%;
     max-width: 500px;
     height: auto;
     z-index: 3;
     position: absolute;
     right: 10px;
-    top: 20%;
+    top: 50%;
     transform: translateY(-50%);
     margin-top: -30px;
     transition: all 0.3s ease;

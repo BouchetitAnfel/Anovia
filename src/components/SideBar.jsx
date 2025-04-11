@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext'; // Adjust path based on your project structure
 import '../styles/SideBar.css';
 import Title from './Title.jsx';
@@ -20,11 +20,12 @@ const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [activeItem, setActiveItem] = useState('Dashboard');
   const navigate = useNavigate();
-  const { logout } = useAuth(); // Call useAuth hook at the top level of your component
+  const location = useLocation(); // Add this to track the current route
+  const { logout } = useAuth();
 
   const sidebarItems = [
     { icon: <LayoutDashboard size={20} />, text: 'Dashboard', path: '/dashboard' },
-    { icon: <Wallet size={20} />, text: 'Budgets', path: '/budgets' },
+    { icon: <Wallet size={20} />, text: 'Budgets', path: '/Budgets' },
     { icon: <ListTodo size={20} />, text: 'Tasks', path: '/tasks' },
     { icon: <Layers size={20} />, text: 'Services', path: '/services' },
     { icon: <CalendarClock size={20} />, text: 'Schedule', path: '/schedule' },
@@ -34,6 +35,16 @@ const Sidebar = () => {
     { icon: <Settings size={20} />, text: 'Settings', path: '/settings' }
   ];
 
+  // Update active item when route changes
+  useEffect(() => {
+    const currentPath = location.pathname;
+    const matchingItem = sidebarItems.find(item => currentPath === item.path);
+    
+    if (matchingItem) {
+      setActiveItem(matchingItem.text);
+    }
+  }, [location.pathname]);
+
   const handleItemClick = (item) => {
     setActiveItem(item.text);
     navigate(item.path);
@@ -41,13 +52,10 @@ const Sidebar = () => {
   
   const handleLogout = async () => {
     try {
-      await logout(); // This will call the logout method from your AuthContext
+      await logout();
       navigate('/login');
     } catch (error) {
       console.error('Logout failed:', error);
-      // Optionally, add user-facing error handling here
-      // For example:
-      // setErrorMessage('Logout failed. Please try again.');
     }
   };
 

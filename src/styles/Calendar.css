@@ -5,6 +5,7 @@
   flex-direction: column;
   height: 100%;
   font-family: 'Quicksand', sans-serif;
+  width: 100%;
 }
 
 .mini-calendar {
@@ -28,7 +29,7 @@
 .mini-calendar-month-title {
   font-weight: 600;
   color: #333;
-  margin: 0;
+  margin-left: 10px;
 }
 
 .mini-calendar-nav-button,

@@ -1,11 +1,14 @@
 .dashboard {
+  width: 110%; 
   height: 100vh;
   overflow-y: auto;
   background: #f5f7fa;
 }
 
 .dashboard-content {
-  min-height: 100%;
+
+  min-height: 120%;
+  margin-left: 70px;
   padding: 20px;
   background: #f5f7fa;
 }
@@ -36,7 +39,7 @@
 
 /* Card Styles */
 .card {
-  min-width: 150px;
+  min-width: 250px;
   background: white;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.08);
@@ -79,16 +82,23 @@
 /* Schedule Card */
 .card.schedule-card {
   flex: 3;
-  min-height: 350px;
+  min-height: 360px;
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: visible;
+  
+}
+.card .card-title{
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-bottom: 10PX;
 }
 
 .card.schedule-card .card-title {
   color: #9b5a96;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 1.5rem;
   margin-bottom: 0;
   padding-bottom: 2px;
 }
@@ -121,7 +131,6 @@
   align-self: flex-end;
   margin-bottom: 5px;
 }
-/* Only showing the relevant parts that need changing */
 
 .stock-list {
   flex-grow: 1;
@@ -294,6 +303,30 @@
 .staff-status.inactive {
   background-color: #fee2e2;
   color: #ef4444;
+}
+/* Scrollbar (subtle) - Adding the same styles from Budgets.css */
+.dashboard::-webkit-scrollbar {
+  width: 5px; /* Same thin width */
+  height: 5px; /* Same height */
+}
+
+.dashboard::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dashboard::-webkit-scrollbar-thumb {
+  background: rgba(155, 90, 150, 0.1); /* Light purple with low opacity */
+  border-radius: 4px;
+}
+
+.dashboard::-webkit-scrollbar-thumb:hover {
+  background: rgba(155, 90, 150, 0.2); /* Slightly more visible on hover */
+}
+
+/* For Firefox */
+.dashboard {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(155, 90, 150, 0.1) transparent;
 }
 
 /* Responsive Adjustments */

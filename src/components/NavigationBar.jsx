@@ -1,5 +1,7 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/NavigationBar.css';
+import Profile from '../pages/Profile';
 import { 
   SearchIcon,
   CalendarCheck, 
@@ -7,8 +9,16 @@ import {
   Bell, 
   ChevronDown 
 } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
 
 const NavigationBar = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
+  const handleProfileClick = () => {
+    navigate('/profile');
+  };
+
   return (
     <div className="top-navigation-bar">
       
@@ -33,10 +43,15 @@ const NavigationBar = () => {
           <Bell size={20} />
         </div>
         
-        <div className="user-profile">
-          <span>Some Dude</span>
+        <div className="user-profile" onClick={handleProfileClick}>
+          <span>{user?.name || "Some Dude"}</span>
           <span className="user-role">Admin</span>
-          <div className="profile-circle"></div>
+          <div className="profile-circle">
+            {user?.name 
+              ? user.name.split(' ').map(n => n[0]).join('') 
+              : 'SD'
+            }
+          </div>
           <ChevronDown size={16} />
         </div>
       </div>

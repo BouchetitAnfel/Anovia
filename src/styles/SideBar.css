@@ -1,5 +1,5 @@
 .sidebar {
-    width: 190px;
+    width: 250px;
     height: 100vh;
     background-color: #ffffff;
     border-right: 1px solid #e0e0e0;
@@ -15,7 +15,7 @@
   
   .sidebar-logo {
     margin-top: 3px;
-    height:70px;
+    height:85px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -35,6 +35,7 @@
   
   .sidebar-menu {
     padding-top: 20px;
+
   }
   
   .sidebar-item {
@@ -42,6 +43,7 @@
     align-items: center;
     padding: 12px 15px;
     cursor: pointer;
+    font-size: larger;
     color: #666;
     transition: background-color 0.3s, color 0.3s;
   }

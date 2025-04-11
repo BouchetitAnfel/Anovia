@@ -1,32 +1,12 @@
-import React, { useState, useEffect } from 'react';
+// src/components/Stock.jsx
+import React from 'react';
 import '../styles/Stock.css';
 import SideBar from "../components/SideBar";
 import NavigationBar from '../components/NavigationBar';
-import api from '../api';
-
+import { useStock } from '../contexts/StockContext';
 
 const Stock = () => {
-  const [stockData, setStockData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    fetchStockData();
-  }, []);
-
-  const fetchStockData = async () => {
-    try {
-      setLoading(true);
-      const response = await api.get('/Admin/Stock/List');
-      setStockData(response.data);
-      setError(null);
-    } catch (err) {
-      console.error('Error fetching stock data:', err);
-      setError('Failed to load stock data. Please try again later.');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { stockData, loading, error } = useStock();
 
   return (
     <div>
@@ -51,12 +31,13 @@ const Stock = () => {
               <th>Manager ID</th>
               <th>Date Entered</th>
               <th>Location</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="8" className="loading-message">Loading stock data...</td>
+                <td colSpan="9" className="loading-message">Loading stock data...</td>
               </tr>
             ) : stockData.length > 0 ? (
               stockData.map((item) => (
@@ -69,11 +50,16 @@ const Stock = () => {
                   <td>{item.id_manager || '-'}</td>
                   <td>{item.date_enter}</td>
                   <td>{item.location}</td>
+                  <td>
+                    <span className={`stock-status ${item.qte < item.threshold ? 'low' : 'ok'}`}>
+                      {item.qte < item.threshold ? 'Low Stock' : 'In Stock'}
+                    </span>
+                  </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="8" className="empty-message">No stock items available</td>
+                <td colSpan="9" className="empty-message">No stock items available</td>
               </tr>
             )}
           </tbody>
