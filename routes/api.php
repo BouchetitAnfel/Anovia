@@ -11,7 +11,7 @@ use App\Http\Controllers\API\Employees\Admins\StockManagementController;
 
 Route::post('/login', [EmployeeAuthController::class, 'login'])->name('api.employee.login');
 Route::middleware('auth:api')->group(function () {
-    Route::get('/client/profile', action: [EmployeeAuthController::class, 'me']);
+    Route::get('/profile', action: [EmployeeAuthController::class, 'me']);
     Route::post('/logout', [EmployeeAuthController::class, 'logout']);
 });
 
@@ -35,6 +35,7 @@ Route::middleware('auth:client-api')->group(function () {
 
 route::middleware('auth:client-api')->group(function (){
     Route::put('/Client/UpdateProfile',[UpdateProfileController::class , 'UpdateProfile']);
+    Route::post('/Client/UploadPhoto',[UpdateProfileController::class , 'Uploadphoto']);
 });
 
 Route::middleware('auth:client-api')->prefix('reservations')->group(function () {

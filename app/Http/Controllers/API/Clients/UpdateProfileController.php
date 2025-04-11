@@ -35,6 +35,28 @@ class UpdateProfileController extends Controller
             'updated information ' => $updatedProfile
         ]);
 
+    }
+
+    public function UploadPhoto (Request $request){
+        $client = Auth::user();
+        $validated = $request->validate([
+            'profile_photo' => 'sometimes|image|mimes:jpeg,jpg,png,gif'
+        ]);
+
+        if(!$request->hasFile('profile_photo')){
+            return response([
+                'message' => 'Fail no photo updated',
+            ],401);
+        }
+
+        $updatedClient =$this->clientservice->UploadPhoto($client,$request->file('profile_photo'));
+        return response()->json([
+            'message' => 'Profile photo uploaded successfully',
+            'data' => [
+                'client' => $updatedClient,
+                'profile_photo_url' => url($updatedClient->profile_photo)
+            ]
+        ]);
 
     }
 
