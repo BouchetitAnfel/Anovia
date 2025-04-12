@@ -19,7 +19,10 @@ class Client extends Authenticatable
         'first_name',
         'last_name',
         'email',
-        'password'
+        'password',
+        'phone_number',
+        'profile_photo',
+        'is_active'
     ];
 
     protected $hidden = [
