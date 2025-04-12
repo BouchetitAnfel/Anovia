@@ -20,7 +20,7 @@ class ClientAuthController extends Controller
     {
         try {
             $result = $this->authService->register(
-                $request->only('first_name', 'last_name' , 'email', 'password')
+                $request->only('first_name', 'last_name' , 'email', 'password','phone_number')
             );
             return response()->json($result, 201);
 
