@@ -29,7 +29,7 @@ Route::middleware(['auth:api', RoleMiddleware::class.':admin'])->group( function
 Route::post('/client/register', [ClientAuthController::class, 'register']);
 Route::post('/client/login', [ClientAuthController::class, 'login']);
 Route::middleware('auth:client-api')->group(function () {
-    Route::get('/Client/profile', [ClientAuthController::class, 'profile']);
+    Route::get('/client/profile', [ClientAuthController::class, 'profile']);
     Route::post('/client/logout', [ClientAuthController::class, 'logout']);
 });
 
