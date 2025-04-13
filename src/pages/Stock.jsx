@@ -1,4 +1,3 @@
-// src/components/Stock.jsx
 import React from 'react';
 import '../styles/Stock.css';
 import SideBar from "../components/SideBar";

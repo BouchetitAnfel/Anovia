@@ -86,10 +86,9 @@ const Budget = () => {
       <NavigationBar />
       <div className="budget-content">
         <div className="budget-content-inner">
-           
-      <div className="budget-header">
-        <h2>Budgets</h2>
-      </div>
+          <div className="budget-header">
+            <h2>Budgets</h2>
+          </div>
 
           <div className="budget-summary">
             {summaryCards.map((card, index) => (
@@ -104,7 +103,6 @@ const Budget = () => {
             ))}
           </div>
 
-          {/* Budget Table Section */}
           <div className="budget-table-section">
             <div className="budget-tabs">
               <div className="budget-tab-group">

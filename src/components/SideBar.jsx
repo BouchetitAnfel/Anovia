@@ -6,9 +6,7 @@ import Title from './Title.jsx';
 import { 
   LayoutDashboard, 
   Wallet, 
-  ListTodo, 
   Layers, 
-  CalendarClock, 
   Users2, 
   UserSquare2, 
   Box, 
@@ -26,9 +24,7 @@ const Sidebar = () => {
   const sidebarItems = [
     { icon: <LayoutDashboard size={20} />, text: 'Dashboard', path: '/dashboard' },
     { icon: <Wallet size={20} />, text: 'Budgets', path: '/Budgets' },
-    { icon: <ListTodo size={20} />, text: 'Tasks', path: '/tasks' },
     { icon: <Layers size={20} />, text: 'Services', path: '/services' },
-    { icon: <CalendarClock size={20} />, text: 'Schedule', path: '/schedule' },
     { icon: <UserSquare2 size={20} />, text: 'Staff', path: '/staff' },
     { icon: <Users2 size={20} />, text: 'Users', path: '/users' },
     { icon: <Box size={20} />, text: 'Resources/Stock', path: '/stock' },

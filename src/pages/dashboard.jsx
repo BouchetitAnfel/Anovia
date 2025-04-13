@@ -5,6 +5,7 @@ import '../styles/dashboard.css';
 import { useAuth } from '../contexts/AuthContext';
 import { useStock } from '../contexts/StockContext';
 import Calendar from '../components/Calendar.jsx';
+
 const Dashboard = () => {
   const { user, logout } = useAuth();
   const { getLowStockItems } = useStock();
@@ -24,9 +25,7 @@ const Dashboard = () => {
       
       <div className="dashboard-content">
         <div className="dashboard-grid">
-          {/* Bookings & Revenue Cards */}
           <div className="grid-column">
-            {/* Bookings Card */}
             <div className="card">
               <h3 className="card-title">Bookings</h3>
               <div className="card-value">36,254</div>
@@ -36,7 +35,6 @@ const Dashboard = () => {
               </div>
             </div>
 
-            {/* Revenue Card */}
             <div className="card">
               <h3 className="card-title">Revenue</h3>
               <div className="card-value">$6,254</div>
@@ -47,9 +45,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Second Column - Combined Staff Card & Staff List */}
           <div className="grid-column">
-            {/* Combined Staff Card with List */}
             <div className="card staff-combined-card">
               <div className="staff-header">
                 <div className="staff-metrics">
@@ -77,10 +73,8 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Third Column - Schedule & Stock Alert side by side */}
           <div className="grid-column third-column">
             <div className="schedule-stock-row">
-              {/* Schedule Card */}
               <div className="card schedule-card">
                 <h3 className="card-title">Schedule</h3>
                 <div className="calendar-container">
@@ -88,7 +82,6 @@ const Dashboard = () => {
                 </div>
               </div>
               
-              {/* Stock Alert Card */}
               <div className="card stock-alert-card">
                 <h3 className="card-title">Stock Alert</h3>
                 <div className="stock-alert-header">

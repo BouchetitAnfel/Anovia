@@ -125,16 +125,17 @@
   padding: 4px 8px;
   border: 1px solid #ddd;
   border-radius: 3px;
-  max-width: 130px; /* Add this to control width */
+  max-width: 150px; 
   height: 25px;
-}button.plus {
+}
+  button.plus {
   background: transparent !important;
   border: none !important;
   color: #9b5a96;
   cursor: pointer;
   padding: 2px;
   position: relative;
-  bottom: 44px;
+  bottom: 50px;
   right: 27px;
   outline: none;
   box-shadow: none;

@@ -1,32 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SideBar from "../components/SideBar";
 import NavigationBar from '../components/NavigationBar';
 import '../styles/profile.css';
 import { useAuth } from '../contexts/AuthContext';
-import { 
-  User, 
-  Mail, 
-  Phone, 
-  Calendar, 
-  Shield, 
-  Lock, 
-  Edit2,
-  Save
-} from 'lucide-react';
+import api from '../api';
+import { User, Mail, Phone, Calendar, Shield, Lock, Edit2, Save } from 'lucide-react';
 
 const Profile = () => {
-  const { user, updateUser } = useAuth();
+  const { user } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
+  const defaultPermissions = ["Staff Management", "Booking System", "Facility Access", "Financial Reports"];
+  
   const [formData, setFormData] = useState({
-    firstName: user?.firstName || "Robert",
-    lastName: user?.lastName || "Johnson",
-    email: user?.email || "manager@grandhotel.com",
-    phone: user?.phone || "+1 (555) 789-4321",
-    role: user?.role || "Hotel Administrator",
-    department: user?.department || "Management",
-    joinDate: user?.joinDate || "2022-06-10",
-    permissions: user?.permissions || ["Staff Management", "Booking System", "Facility Access", "Financial Reports"]
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "+1 (555) 789-4321",
+    role: "",
+    joinDate: "2022-06-10",
+    permissions: defaultPermissions
   });
+
+  useEffect(() => {
+    fetchUserProfile();
+  }, []);
+
+  const fetchUserProfile = async () => {
+    try {
+      setIsLoading(true);
+      const response = await api.get('/profile');
+      const userData = response.data;
+      
+      setFormData({
+        firstName: userData.first_name || "",
+        lastName: userData.last_name || "",
+        email: userData.email || "",
+        phone: formData.phone,
+        role: userData.role || "",
+        joinDate: formData.joinDate,
+        permissions: defaultPermissions
+      });
+      
+      setIsLoading(false);
+    } catch (err) {
+      console.error("Error fetching profile:", err);
+      setError(err.response?.data?.message || err.message);
+      setIsLoading(false);
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -36,14 +60,39 @@ const Profile = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Call updateUser from auth context if available
-    if (updateUser) {
-      updateUser(formData);
+    
+    try {
+      const dataToSend = {
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        email: formData.email,
+        phone: formData.phone
+      };
+      
+      await api.put('/profile/update', dataToSend);
+      setIsEditing(false);
+    } catch (err) {
+      console.error("Error updating profile:", err);
+      setError(err.response?.data?.message || err.message);
     }
-    setIsEditing(false);
   };
+
+  useEffect(() => {
+    if (user) {
+      setFormData(prevData => ({
+        ...prevData,
+        firstName: user.first_name || user.firstName || "",
+        lastName: user.last_name || user.lastName || "",
+        email: user.email || "",
+        role: user.role || ""
+      }));
+    }
+  }, [user]);
+
+  if (isLoading && !user) return <div className="loading">Loading profile data...</div>;
+  if (error) return <div className="error">Error: {error}</div>;
 
   return (
     <div className="dashboard">
@@ -52,8 +101,6 @@ const Profile = () => {
       
       <div className="dashboard-content">
         <div className="admin-profile-container">
-          {/* Removed the profile-header with Admin Profile title */}
-          
           <div className="profile-content">
             <div className="profile-sidebar">
               <div className="admin-avatar">
@@ -61,15 +108,14 @@ const Profile = () => {
               </div>
               <h2 className="admin-name">{formData.firstName} {formData.lastName}</h2>
               <div className="admin-role">{formData.role}</div>
-              <div className="admin-department">{formData.department}</div>
               
               <div className="account-stats">
                 <div className="stat-item">
-                  <div className="stat-value">243</div>
+                  <div className="stat-value">36,254</div>
                   <div className="stat-label">Bookings</div>
                 </div>
                 <div className="stat-item">
-                  <div className="stat-value">18</div>
+                  <div className="stat-value">48</div>
                   <div className="stat-label">Staff</div>
                 </div>
                 <div className="stat-item">
@@ -78,7 +124,6 @@ const Profile = () => {
                 </div>
               </div>
               
-              {/* Profile edit button in sidebar retained */}
               <button 
                 className="edit-toggle-btn sidebar-edit-btn"
                 onClick={() => isEditing ? handleSubmit() : setIsEditing(true)}
@@ -91,10 +136,7 @@ const Profile = () => {
             <div className="profile-details">
               <form onSubmit={handleSubmit}>
                 <div className="details-section">
-                  <h3 className="section-title">
-                    Personal Information
-                    
-                  </h3>
+                  <h3 className="section-title">Personal Information</h3>
                   
                   <div className="form-row">
                     <div className="form-group">
@@ -158,7 +200,7 @@ const Profile = () => {
                 </div>
                 
                 <div className="details-section">
-                  <h3 className="section-title"> Details</h3>
+                  <h3 className="section-title">Details</h3>
                   
                   <div className="form-row">
                     <div className="form-group">
@@ -171,7 +213,7 @@ const Profile = () => {
                         name="role"
                         value={formData.role}
                         onChange={handleInputChange}
-                        disabled={!isEditing}
+                        disabled={true}
                       />
                     </div>
                     
@@ -211,7 +253,6 @@ const Profile = () => {
                   </div>
                 </div>
                 
-               
                 {isEditing && (
                   <div className="form-actions">
                     <button type="submit" className="save-btn">Save Changes</button>

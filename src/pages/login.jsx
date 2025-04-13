@@ -6,6 +6,7 @@ import Group3 from "../assets/Group 3.svg";
 import Laptop from "../assets/Laptop.svg";
 import Logo from "../assets/logo.svg";
 import { useAuth } from '../contexts/AuthContext';
+
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
@@ -16,8 +17,6 @@ const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
- 
-
   const handleSubmit = async (e) => {
     e.preventDefault(); 
     setIsLoading(true);
@@ -25,7 +24,6 @@ const Login = () => {
 
     try {
       await login(email, password);
-      
       navigate('/dashboard');
     } catch (err) {
       const errorMessage = err.response?.data?.error || 
@@ -71,7 +69,6 @@ const Login = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
-              
               </div>
             </div>
             <div className="password-options">

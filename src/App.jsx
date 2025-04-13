@@ -1,11 +1,12 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Welcome from './pages/Welcome';
+import Welcome from './pages/welcome';
 import Login from './pages/login';
 import Dashboard from './pages/dashboard';
-import Budgets from './pages/budgets';
+import Budgets from './pages/Budgets';
 import Profile from './pages/Profile';
 import Stock from './pages/Stock';
+import Staff from './pages/Staff';
 import ErrorBoundary from './components/ErrorBoundary';
 import { AuthProvider } from './contexts/AuthContext';
 import { StockProvider } from './contexts/StockContext';
@@ -21,6 +22,7 @@ function App() {
           <Route path="/stock"  element={<Stock />}/>
           <Route path="/Budgets" element={<Budgets />}/>
           <Route path="/Profile" element={<Profile />}/>
+          <Route path="/Staff" element={<Staff />}/>
         </Routes>
         </StockProvider>
       </AuthProvider>

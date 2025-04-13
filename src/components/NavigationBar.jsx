@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/NavigationBar.css';
-import Profile from '../pages/Profile';
 import { 
   SearchIcon,
   CalendarCheck, 
@@ -17,6 +16,20 @@ const NavigationBar = () => {
 
   const handleProfileClick = () => {
     navigate('/profile');
+  };
+
+  const getInitials = () => {
+    if (user?.first_name && user?.last_name) {
+      return `${user.first_name[0]}${user.last_name[0]}`;
+    }
+    return 'SD';  
+  };
+
+  const getFullName = () => {
+    if (user?.first_name && user?.last_name) {
+      return `${user.first_name} ${user.last_name}`;
+    }
+    return "Some Dude"; 
   };
 
   return (
@@ -44,13 +57,12 @@ const NavigationBar = () => {
         </div>
         
         <div className="user-profile" onClick={handleProfileClick}>
-          <span>{user?.name || "Some Dude"}</span>
-          <span className="user-role">Admin</span>
+          <div className="user-info">
+            <div className="user-name">{getFullName()}</div>
+            <div className="user-role">{user?.role || "Admin"}</div>
+          </div>
           <div className="profile-circle">
-            {user?.name 
-              ? user.name.split(' ').map(n => n[0]).join('') 
-              : 'SD'
-            }
+            {getInitials()}
           </div>
           <ChevronDown size={16} />
         </div>
