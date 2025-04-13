@@ -7,7 +7,7 @@ import { useStock } from '../contexts/StockContext';
 import Calendar from '../components/Calendar.jsx';
 
 const Dashboard = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, isAdmin } = useAuth();
   const { getLowStockItems } = useStock();
   
   const lowStockItems = getLowStockItems();
@@ -17,6 +17,34 @@ const Dashboard = () => {
     { id: 2, name: 'Bouchetit Anfel', status: 'active' },
     { id: 3, name: 'Benghorieb Anfel', status: 'inactive' },
   ];
+
+  if (!user) {
+    return (
+      <div className="dashboard">
+        <SideBar />
+        <NavigationBar />
+        <div className="dashboard-content">
+          <div className="unauthorized-message">
+            Please log in to view the dashboard.
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAdmin()) {
+    return (
+      <div className="dashboard">
+        <SideBar />
+        <NavigationBar />
+        <div className="dashboard-content">
+          <div className="unauthorized-message">
+            You don't have permission to view the admin dashboard. This area is restricted to administrators only.
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="dashboard">

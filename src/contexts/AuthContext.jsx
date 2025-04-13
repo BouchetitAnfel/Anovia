@@ -70,13 +70,27 @@ export function AuthProvider({ children }) {
     return user && user.role === 'admin';
   };
 
+ 
+  const refreshUserData = async () => {
+    try {
+      const response = await api.get('/profile');
+      setUser(response.data);
+      return response.data;
+    } catch (err) {
+      console.error('Error refreshing user data:', err);
+      throw err;
+    }
+  };
+  
+  // Add this to the value object
   const value = {
     user,
     login,
     logout,
     isLoading,
     error,
-    isAdmin
+    isAdmin,
+    refreshUserData
   };
 
   return (

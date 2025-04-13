@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext'; // Adjust path based on your project structure
+import { useAuth } from '../contexts/AuthContext'; 
 import '../styles/SideBar.css';
 import Title from './Title.jsx';
 import { 
@@ -11,27 +11,80 @@ import {
   UserSquare2, 
   Box, 
   Settings,
-  LogOut
+  LogOut,
+  User
 } from 'lucide-react';
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [activeItem, setActiveItem] = useState('Dashboard');
   const navigate = useNavigate();
-  const location = useLocation(); // Add this to track the current route
-  const { logout } = useAuth();
+  const location = useLocation();
+  const { logout, user, isAdmin } = useAuth();
 
-  const sidebarItems = [
-    { icon: <LayoutDashboard size={20} />, text: 'Dashboard', path: '/dashboard' },
-    { icon: <Wallet size={20} />, text: 'Budgets', path: '/Budgets' },
-    { icon: <Layers size={20} />, text: 'Services', path: '/services' },
-    { icon: <UserSquare2 size={20} />, text: 'Staff', path: '/staff' },
-    { icon: <Users2 size={20} />, text: 'Users', path: '/users' },
-    { icon: <Box size={20} />, text: 'Resources/Stock', path: '/stock' },
-    { icon: <Settings size={20} />, text: 'Settings', path: '/settings' }
+  const allSidebarItems = [
+    { 
+      icon: <LayoutDashboard size={20} />, 
+      text: 'Dashboard', 
+      path: '/dashboard',
+      roles: ['admin', 'user', 'manager', 'staff'] 
+    },
+    { 
+      icon: <User size={20} />, 
+      text: 'Profile', 
+      path: '/profile',
+      roles: ['admin', 'user', 'manager', 'staff'] 
+    },
+    { 
+      icon: <Wallet size={20} />, 
+      text: 'Budgets', 
+      path: '/Budgets',
+      roles: ['admin'] 
+    },
+    { 
+      icon: <Layers size={20} />, 
+      text: 'Services', 
+      path: '/services',
+      roles: ['admin'] 
+    },
+    { 
+      icon: <UserSquare2 size={20} />, 
+      text: 'Staff', 
+      path: '/staff',
+      roles: ['admin'] 
+    },
+    { 
+      icon: <Users2 size={20} />, 
+      text: 'Users', 
+      path: '/users',
+      roles: ['admin']
+    },
+    { 
+      icon: <Box size={20} />, 
+      text: 'Resources/Stock', 
+      path: '/stock',
+      roles: ['admin']
+    },
+    { 
+      icon: <Settings size={20} />, 
+      text: 'Settings', 
+      path: '/settings',
+      roles: ['admin', 'manager'] 
+    }
   ];
 
-  // Update active item when route changes
+  const getSidebarItems = () => {
+    if (!user) return [];
+    
+    const userRole = user.role || 'user';
+    
+    return allSidebarItems.filter(item => 
+      item.roles.includes(userRole)
+    );
+  };
+
+  const sidebarItems = getSidebarItems();
+
   useEffect(() => {
     const currentPath = location.pathname;
     const matchingItem = sidebarItems.find(item => currentPath === item.path);
@@ -39,7 +92,7 @@ const Sidebar = () => {
     if (matchingItem) {
       setActiveItem(matchingItem.text);
     }
-  }, [location.pathname]);
+  }, [location.pathname, sidebarItems]);
 
   const handleItemClick = (item) => {
     setActiveItem(item.text);
