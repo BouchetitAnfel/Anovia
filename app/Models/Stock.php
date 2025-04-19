@@ -17,7 +17,8 @@ class Stock extends Model
         'qualite',
         'id_manager',
         'date_enter',
-        'location'
-
+        'location',
+        'low_threshold',
+        'high_threshold'
     ];
 }
