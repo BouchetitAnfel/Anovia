@@ -56,7 +56,7 @@ const Sidebar = () => {
     { 
       icon: <Users2 size={20} />, 
       text: 'Users', 
-      path: '/users',
+      path: '/AccountsCreation',
       roles: ['admin']
     },
     { 

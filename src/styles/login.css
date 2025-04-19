@@ -136,8 +136,8 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;  
-    align-items: center; /* Changed from flex-start to center */
-    text-align: center; /* Added to center the text */
+    align-items: center; 
+    text-align: center;
     transition: all 0.3s ease;
     padding: 0 40px;
 }
@@ -159,8 +159,8 @@ p {
     color: #666;
     font-weight: 400;
     margin-bottom: 20px;
-    text-align: center; /* Center the subtext */
-    width: 100%; /* Ensure full width for centering */
+    text-align: center;
+    width: 100%; 
 }
 .inputcss input, .password-container input {
     font-family:" Quicksand", system-ui, sans-serif;

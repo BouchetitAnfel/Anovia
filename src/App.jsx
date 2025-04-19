@@ -7,6 +7,7 @@ import Budgets from './pages/Budgets';
 import Profile from './pages/Profile';
 import Stock from './pages/Stock';
 import Staff from './pages/Staff';
+import AccountsCreation from './pages/AccountsCreation';
 import ErrorBoundary from './components/ErrorBoundary';
 import { AuthProvider } from './contexts/AuthContext';
 import { StockProvider } from './contexts/StockContext';
@@ -23,6 +24,7 @@ function App() {
           <Route path="/Budgets" element={<Budgets />}/>
           <Route path="/Profile" element={<Profile />}/>
           <Route path="/Staff" element={<Staff />}/>
+          <Route path="/AccountsCreation" element={<AccountsCreation />}/>
         </Routes>
         </StockProvider>
       </AuthProvider>

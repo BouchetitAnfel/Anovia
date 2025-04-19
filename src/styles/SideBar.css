@@ -65,7 +65,6 @@
   white-space: nowrap;
 }
 
-/* Collapsed state */
 .sidebar.collapsed .sidebar-item span {
   display: none;
 }
