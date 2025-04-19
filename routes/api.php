@@ -10,9 +10,12 @@ use App\Http\Controllers\API\Employees\Admins\CreateAccountController;
 use App\Http\Controllers\API\Employees\Admins\StockManagementController;
 
 Route::post('/login', [EmployeeAuthController::class, 'login'])->name('api.employee.login');
+
 Route::middleware('auth:api')->group(function () {
     Route::get('/profile', action: [EmployeeAuthController::class, 'me']);
     Route::post('/logout', [EmployeeAuthController::class, 'logout']);
+    Route::put('/profile/update', [EmployeeAuthController::class, 'updateProfile']);
+
 });
 
 

@@ -21,7 +21,7 @@ class EmployeeAuthService
         $email = $credentials['email'] ?? null;
         $password = $credentials['password'] ?? null;
 
-        $employee = Employee::where('Email', $email)->first();
+        $employee = Employee::where('email', $email)->first();
 
         if (!$employee) {
             throw new \Exception('Employee not found');
