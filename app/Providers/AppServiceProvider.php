@@ -2,8 +2,14 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
+
+use App\Events\LowStockEvent;
+use App\Events\HighStockEvent;
+use App\Listeners\HandleLowStockAlert;
+use App\Listeners\HandleHighStockAlert;
+use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Event;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -26,5 +32,15 @@ class AppServiceProvider extends ServiceProvider
             'client-api' => 'Client API access',
             'api' => 'Employee API access'
         ]);
+
+        Event::listen(
+            LowStockEvent::class,
+            HandleLowStockAlert::class
+        );
+
+        Event::listen(
+            HighStockEvent::class,
+            HandleHighStockAlert::class
+        );
     }
 }

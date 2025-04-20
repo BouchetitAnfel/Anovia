@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\API\Clients\ClientAuthController;
 use App\Http\Controllers\API\Clients\ReservationController;
+use App\Http\Controllers\API\Clients\UpdateProfileController;
 use App\Http\Controllers\API\Employees\EmployeeAuthController;
 use App\Http\Controllers\API\Employees\Admins\CreateAccountController;
 use App\Http\Controllers\API\Employees\Admins\StockManagementController;
@@ -15,7 +16,14 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [EmployeeAuthController::class, 'logout']);
 });
 
+<<<<<<< HEAD
 Route::middleware(['auth:api', RoleMiddleware::class.':admin'])->group(function() {
+=======
+
+
+
+Route::middleware(['auth:api', RoleMiddleware::class.':admin'])->group( function(){
+>>>>>>> 156c778ac6f757b05141ff2a40ab6e49fe785189
     Route::post('/Admin/CreateAccount', [CreateAccountController::class, 'CreateAccount']);
     Route::post('/Admin/Stock/AddStock', [StockManagementController::class, 'AddStock']);
     Route::get('/Admin/Stock/List', [StockManagementController::class, 'StockList']);
@@ -25,12 +33,25 @@ Route::post('/client/register', [ClientAuthController::class, 'register']);
 Route::post('/client/login', [ClientAuthController::class, 'login']);
 
 Route::middleware('auth:client-api')->group(function () {
-    Route::get('/Client/profile', [ClientAuthController::class, 'profile']);
+    Route::get('/client/profile', [ClientAuthController::class, 'profile']);
     Route::post('/client/logout', [ClientAuthController::class, 'logout']);
+});
+
+route::middleware('auth:client-api')->group(function (){
+    Route::put('/Client/UpdateProfile',[UpdateProfileController::class , 'UpdateProfile']);
+    Route::post('/Client/UploadPhoto',[UpdateProfileController::class , 'Uploadphoto']);
 });
 
 Route::middleware('auth:client-api')->prefix('reservations')->group(function () {
     Route::post('/NewReservation', [ReservationController::class, 'store']);
     Route::get('/ListReservation', [ReservationController::class, 'listReservations']);
     Route::delete('/Cancel/{id}', [ReservationController::class, 'cancel']);
+<<<<<<< HEAD
 });
+=======
+});
+
+
+
+
+>>>>>>> 156c778ac6f757b05141ff2a40ab6e49fe785189

@@ -22,7 +22,8 @@ class ClientAuthService
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|email|unique:clients,email',
-            'password' => 'required|min:8'
+            'password' => 'required|min:8',
+            'phone_number'=>'required|between:10,12'
         ])->validate();
 
         $client = Client::create([
@@ -30,6 +31,7 @@ class ClientAuthService
             'last_name' => $validatedData['last_name'],
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
+            'phone_number'=>$validatedData['phone_number']
         ]);
 
         $token = $client->createToken('ClientToken', ['client-api'])->accessToken;
