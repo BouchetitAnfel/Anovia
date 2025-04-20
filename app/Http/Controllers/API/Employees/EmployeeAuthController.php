@@ -46,8 +46,10 @@ class EmployeeAuthController extends Controller
 
         return response()->json([
             'id' => $employee->id,
-            'first_name' => $employee->{'first_name'},
-            'last_name' => $employee->{'last_name'},
+            'first_name' => $employee->first_name,
+            'last_name' => $employee->last_name,
+            'email'=>$employee->email,
+            'role'=>$employee->role
         ]);
     }
 }
