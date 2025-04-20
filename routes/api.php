@@ -6,8 +6,9 @@ use App\Http\Controllers\API\Clients\ClientAuthController;
 use App\Http\Controllers\API\Clients\ReservationController;
 use App\Http\Controllers\API\Clients\UpdateProfileController;
 use App\Http\Controllers\API\Employees\EmployeeAuthController;
-use App\Http\Controllers\API\Employees\Admins\CreateAccountController;
 use App\Http\Controllers\API\Employees\Admins\StockManagementController;
+use App\Http\Controllers\API\Employees\Admins\CreateAccountController;
+use App\Http\Controllers\API\Employees\Admins\ManageAccountController;
 
 Route::post('/login', [EmployeeAuthController::class, 'login'])->name('api.employee.login');
 Route::middleware('auth:api')->group(function () {
@@ -20,8 +21,10 @@ Route::middleware('auth:api')->group(function () {
 
 Route::middleware(['auth:api', RoleMiddleware::class.':admin'])->group( function(){
     Route::post('/Admin/CreateAccount', [CreateAccountController::class, 'CreateAccount']);
+   // Route::post('/Admin/UpdateAccount',[ManageAccountController::class,'Modify']);
     Route::post('/Admin/Stock/AddStock', [StockManagementController::class, 'AddStock']);
     Route::get('/Admin/Stock/List' ,[StockManagementController::class, 'StockList']);
+
 });
 
 
