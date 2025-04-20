@@ -26,7 +26,6 @@ return new class extends Migration
             $table->date('date_checkin');
             $table->date('date_checkout');
 
-            // Receptionist Foreign Key
             $table->unsignedBigInteger('receptionist_id')->nullable();
             $table->foreign('receptionist_id')->references('id')->on('employees')->onDelete('set null');
 

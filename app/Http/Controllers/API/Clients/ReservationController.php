@@ -18,8 +18,13 @@ class ReservationController extends Controller
     {
         $request->validate([
             'room_id' => 'required|exists:rooms,id',
+            'name_client' => 'required|string',
             'date_checkin' => 'required|date|after_or_equal:today',
             'date_checkout' => 'required|date|after:date_checkin',
+            'phone_number' => 'required|string|max:20', 
+            'special_request' => 'nullable|string', 
+            'number_of_guests' => 'nullable|integer|min:1',
+            //'total_price'=> 'required|string',
         ]);
 
         $client = Auth::user();
@@ -42,7 +47,10 @@ class ReservationController extends Controller
 
         $reservation = Reservation::create([
             'client_id' => $client->id,
-            'name_client' => $client->first_name . ' ' . $client->last_name,
+            'name_client' => $request->name_client,
+            'phone_number' => $request->phone_number ?? $client->phone,
+            'special_request' => $request->special_request, 
+            'number_of_guests' => $request->number_of_guests ?? 1, 
             'room_id' => $room->id,
             'date_reservation' => now(),
             'date_checkin' => $request->date_checkin,
@@ -69,14 +77,16 @@ class ReservationController extends Controller
 
     public function cancel($id)
     {
-        $reservation = Reservation::where('client_id', Auth::id())->findOrFail($id);
-
+        $reservation = Reservation::where('client_id', Auth::id())
+                        ->where('id', $id)
+                        ->firstOrFail();
+    
         if ($reservation->reservation_status === 'canceled') {
             return response()->json(['message' => 'Reservation is already canceled'], 400);
         }
-
-        $reservation->update(['reservation_status' => 'canceled']);
-
+    
+        $reservation->delete();
+    
         return response()->json(['message' => 'Reservation canceled successfully']);
     }
 }

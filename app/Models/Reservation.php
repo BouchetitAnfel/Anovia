@@ -8,6 +8,9 @@ class Reservation extends Model
     protected $fillable = [
         'client_id',
         'name_client',
+        'phone_number',         
+        'special_request',      
+        'number_of_guests', 
         'room_id',
         'date_reservation',
         'date_checkin',
