@@ -18,10 +18,9 @@ Route::middleware('auth:api')->group(function () {
 
 
 
-
 Route::middleware(['auth:api', RoleMiddleware::class.':admin'])->group( function(){
     Route::post('/Admin/CreateAccount', [CreateAccountController::class, 'CreateAccount']);
-   // Route::post('/Admin/UpdateAccount',[ManageAccountController::class,'Modify']);
+    Route::post('/employees/{employeeId}', [ManageAccountController::class, 'modify']);
     Route::post('/Admin/Stock/AddStock', [StockManagementController::class, 'AddStock']);
     Route::get('/Admin/Stock/List' ,[StockManagementController::class, 'StockList']);
 
@@ -36,7 +35,7 @@ Route::middleware('auth:client-api')->group(function () {
     Route::post('/client/logout', [ClientAuthController::class, 'logout']);
 });
 
-route::middleware('auth:client-api')->group(function (){
+route::middleware('auth:client²-api')->group(function (){
     Route::put('/Client/UpdateProfile',[UpdateProfileController::class , 'UpdateProfile']);
     Route::post('/Client/UploadPhoto',[UpdateProfileController::class , 'Uploadphoto']);
 });
