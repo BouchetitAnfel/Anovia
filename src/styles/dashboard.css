@@ -320,8 +320,182 @@
   scrollbar-width: thin;
   scrollbar-color: rgba(155, 90, 150, 0.1) transparent;
 }
+/* Add these styles to your existing dashboard.css */
 
-/* Responsive Adjustments */
+/* New stock alert card styles */
+.stock-empty {
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+  padding: 20px 0;
+}
+
+.stock-loading, .stock-error {
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+  padding: 20px 0;
+}
+
+.stock-error {
+  color: #ef4444;
+}
+
+.stock-progress-bar {
+  flex-grow: 1;
+  height: 6px;
+  background-color: #e5e7eb;
+  border-radius: 3px;
+  margin-right: 10px;
+  overflow: hidden;
+}
+
+.stock-progress {
+  height: 100%;
+  background-color: #f59e0b;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.stock-numbers {
+  font-size: 12px;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+/* Enhanced stock card styles */
+.card.stock-alert-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.stock-alert-header {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.stock-count {
+  font-size: 28px;
+  font-weight: 700;
+  color: #ef4444;
+  margin-right: 10px;
+}
+
+.stock-label {
+  font-size: 14px;
+  color: #6b7280;
+  align-self: flex-end;
+  margin-bottom: 5px;
+}
+
+.stock-list {
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-bottom: 15px;
+  max-height: 220px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(155, 90, 150, 0.1) transparent;
+}
+
+.stock-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.stock-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.stock-list::-webkit-scrollbar-thumb {
+  background: rgba(155, 90, 150, 0.1);
+  border-radius: 2px;
+}
+
+.stock-list-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.stock-list-item {
+  display: flex;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s;
+}
+
+.stock-list-item:hover {
+  background-color: #f9fafb;
+}
+
+.stock-icon {
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.stock-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: block;
+}
+
+.stock-details {
+  flex-grow: 1;
+  width: calc(100% - 22px);
+}
+
+.stock-name {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #111827;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stock-level {
+  display: flex;
+  align-items: center;
+}
+
+.stock-footer {
+  margin-top: auto;
+  padding-top: 5px;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid #f0f0f0;
+}
+
+.stock-report-btn {
+  background-color: #9b5a96;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  min-width: 120px;
+  text-align: center;
+  position: relative;
+  bottom: 40px;
+
+}
+
+.stock-report-btn:hover {
+  background-color: #8a4e85;
+}
+
+.stock-report-btn:active {
+  transform: translateY(1px);
+}
+
 @media (max-width: 1200px) {
   .dashboard-grid {
     flex-direction: column;

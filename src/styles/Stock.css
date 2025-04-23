@@ -1,50 +1,159 @@
-/* Stock header styling */
+.stock-container {
+  margin-left: 220px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  width: calc(100% - 220px);
+  min-height: calc(100vh - 60px);
+  background-color: #f5f7fa;
+}
+
 .stock-header {
   text-align: left;
-  position: absolute;
-  top: 70px;
-  left: 30px;
-  margin-left: 200px;
-  padding: 0 20px;
-  margin-bottom: 15px;
-  width: 100%;
+  margin-bottom: 25px;
+  padding-top: 90px;
+  padding-left: 20px;
 }
 
 .stock-header h2 {
   color: #8a4e85;
-  font-weight: 500;
-  font-size: 2rem;
+  font-weight: 600;
+  font-size: 1.75rem;
+  margin: 0;
 }
 
-/* Error message styling */
 .error-message {
   background-color: #ffebee;
   color: #c62828;
-  padding: 10px;
-  border-radius: 4px;
-  margin: 0 20px 15px 20px;
+  padding: 10px 15px;
+  border-radius: 6px;
+  margin-bottom: 15px;
   text-align: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-/* Table styles with scrolling but preserving layout */
+.stock-filters {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #9b5a96;
+  height: 90px;
+}
+
+.filter-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-group label {
+  font-size: 14px;
+  color: #4b5563;
+  font-weight: 500;
+}
+
+.filter-group select {
+  padding: 6px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 14px;
+  color: #1f2937;
+  cursor: pointer;
+  outline: none;
+  min-width: 140px;
+  height: 32px;
+}
+
+.filter-group select:focus {
+  border-color: #9b5a96;
+  box-shadow: 0 0 0 2px rgba(155, 90, 150, 0.1);
+}
+
+.filter-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filter-checkbox input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.filter-checkbox label {
+  font-size: 14px;
+  color: #4b5563;
+  cursor: pointer;
+}
+
+.refresh-button {
+  background-color: #9b5a96;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  height: 30px;
+  width: auto;
+  position: relative;
+  bottom: 20px;
+}
+
+.refresh-button:hover {
+  background-color: #8a4e85;
+}
+
+.refresh-button:active {
+  transform: translateY(1px);
+}
+
+.refresh-button:disabled {
+  background-color: #d1d5db;
+  cursor: not-allowed;
+}
+
+.unauthorized-message {
+  text-align: center;
+  margin-top: 100px;
+  color: #6b7280;
+  font-size: 16px;
+  padding: 20px;
+  background-color: #f3f4f6;
+  border-radius: 8px;
+  border-left: 4px solid #ef4444;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .stock-table-container {
   width: 100%;
-  height: 100%;
-  margin-left: 80px;
-  margin-top: 130px; /* Change from -20% to fixed positive margin */
   overflow-x: auto;
-  overflow-y: auto; /* Add vertical scrolling */
-  max-height: calc(100vh - 180px); /* Calculate height based on viewport */
+  overflow-y: auto;
+  max-height: calc(100vh - 250px);
   background-color: white;
-  border-radius: 5px;
+  border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   border-bottom: 4px solid #8a4e85;
-  position: relative; /* Add position relative */
+  position: relative;
 }
 
 .stock-table {
   width: 100%;
-  height:100%;
   border-collapse: collapse;
   border-spacing: 0;
   font-size: 14px;
@@ -54,36 +163,56 @@
 .stock-table thead tr {
   background-color: #9b5a96;
   text-align: left;
-  position: sticky; /* Make header sticky */
-  top: 0; /* Stick to top of container */
-  z-index: 1; /* Ensure header stays above content when scrolling */
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  height: 38px;
 }
 
 .stock-table th {
-  padding: 12px 15px;
+  padding: 4px 8px;
   font-weight: 500;
   border-bottom: 1px solid #ddd;
   color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  user-select: none;
+  vertical-align: middle;
+}
+
+.stock-table th:hover {
+  background-color: #8a4e85;
 }
 
 .stock-table tbody tr {
   border-bottom: 1px solid #eee;
+  height: 32px;
+  line-height: 1.2;
 }
 
 .stock-table tbody tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
+.stock-table tbody tr.critical-row {
+  background-color: #fee2e2;
+}
+
+.stock-table tbody tr.low-row {
+  background-color: #fff7ed;
+}
+
 .stock-table td {
-  padding: 12px 15px;
-  color: #666;
+  padding: 6px 8px;
+  color: #4b5563;
+  vertical-align: middle;
 }
 
 .loading-message,
 .empty-message {
   text-align: center;
-  padding: 20px;
-  color: #999;
+  padding: 30px;
+  color: #9ca3af;
   font-style: italic;
 }
 
@@ -91,48 +220,50 @@
   background-color: #f0f7ff;
   transition: background-color 0.2s ease;
 }
-/* Add at the end of your SideBar.css file */
-.sidebar-footer {
-  position: absolute;
-  bottom: 20px;
-  width: 100%;
-}
 
-.logout-item {
-  color: #e74c3c; /* Red color to distinguish logout */
-}
-
-.logout-item:hover {
-  background-color: #ffeeee; /* Light red background on hover */
-}
-/* Responsive adjustments */
-@media screen and (max-width: 768px) {
-  .stock-table th,
-  .stock-table td {
-    padding: 8px 10px;
-    font-size: 12px;
-  }
-}
 .stock-status {
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 12px;
   font-weight: 500;
+  display: inline-block;
+}
+
+.stock-status.critical {
+  background-color: #fee2e2;
+  color: #b91c1c;
 }
 
 .stock-status.low {
-  background-color: #fee2e2;
-  color: #ef4444;
+  background-color: #fff7ed;
+  color: #c2410c;
 }
 
 .stock-status.ok {
   background-color: #d1fae5;
-  color: #10b981;
+  color: #047857;
 }
-/* Scrollbar (subtle) - matching the one from Budgets.css */
+
+.threshold-info {
+  font-size: 11px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.quantity-display {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.quantity-display .unit {
+  font-size: 11px;
+  color: #6b7280;
+}
+
 .stock-table-container::-webkit-scrollbar {
-  width: 5px; /* Thin width */
-  height: 5px; /* Same height */
+  width: 5px;
+  height: 5px;
 }
 
 .stock-table-container::-webkit-scrollbar-track {
@@ -140,16 +271,196 @@
 }
 
 .stock-table-container::-webkit-scrollbar-thumb {
-  background: rgba(155, 90, 150, 0.1); /* Light purple with low opacity */
+  background: rgba(155, 90, 150, 0.1);
   border-radius: 4px;
 }
 
 .stock-table-container::-webkit-scrollbar-thumb:hover {
-  background: rgba(155, 90, 150, 0.2); /* Slightly more visible on hover */
+  background: rgba(155, 90, 150, 0.2);
 }
 
-/* For Firefox */
 .stock-table-container {
   scrollbar-width: thin;
   scrollbar-color: rgba(155, 90, 150, 0.1) transparent;
+}
+
+@media screen and (max-width: 1024px) {
+  .stock-filters {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .filter-controls {
+    width: 100%;
+  }
+  
+  .refresh-button {
+    align-self: flex-end;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .stock-table th,
+  .stock-table td {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+  
+  .stock-header h2 {
+    font-size: 1.5rem;
+  }
+}
+
+.threshold-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.threshold-modal {
+  background-color: white;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-top: 5px solid #9b5a96;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.threshold-modal h3 {
+  color: #8a4e85;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.threshold-modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal-info {
+  background-color: #f9f9fb;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.modal-info div {
+  margin-bottom: 6px;
+}
+
+.threshold-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #4b5563;
+}
+
+.form-group input {
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #9b5a96;
+  box-shadow: 0 0 0 2px rgba(155, 90, 150, 0.1);
+}
+
+.threshold-note p {
+  margin: 5px 0;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.cancel-button {
+  padding: 8px 16px;
+  background-color: #f3f4f6;
+  color: #4b5563;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.cancel-button:hover {
+  background-color: #e5e7eb;
+}
+
+.save-button {
+  padding: 8px 16px;
+  background-color: #9b5a96;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.save-button:hover {
+  background-color: #8a4e85;
+}
+
+.threshold-values {
+  font-size: 12x;
+  color: #6b7280;
+  line-height: 1;
+  margin-bottom: 1px;
+}
+
+.edit-threshold-button {
+  background-color: #8a4e85;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  width: 100%;
+  max-width: 120px;
+  position: relative;
+  bottom: 25px;
+}
+
+.edit-threshold-button:hover {
+  background-color: #734071;
 }

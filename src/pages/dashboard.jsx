@@ -8,9 +8,17 @@ import Calendar from '../components/Calendar.jsx';
 
 const Dashboard = () => {
   const { user, logout, isAdmin } = useAuth();
-  const { getLowStockItems } = useStock();
+  const { 
+    getLowStockItems, 
+    getCriticalStockItems,
+    loading, 
+    error, 
+    getProductUnit,
+    alertStats 
+  } = useStock();
   
   const lowStockItems = getLowStockItems();
+  const criticalItems = getCriticalStockItems();
 
   const staffMembers = [
     { id: 1, name: 'Hadil Benzaid', status: 'active' },
@@ -112,42 +120,72 @@ const Dashboard = () => {
               
               <div className="card stock-alert-card">
                 <h3 className="card-title">Stock Alert</h3>
-                <div className="stock-alert-header">
-                  <div className="stock-count">{lowStockItems.length}</div>
-                  <div className="stock-label">Items running low</div>
-                </div>
-                
-                <div className="stock-list">
-                  <ul className="stock-list-items">
-                    {lowStockItems.map(item => (
-                      <li key={item.id} className="stock-list-item">
-                        <div className="stock-icon">
-                          <span className="stock-indicator" style={{ 
-                            backgroundColor: item.qte < item.threshold / 2 ? '#ef4444' : '#f59e0b' 
-                          }}></span>
-                        </div>
-                        <div className="stock-details">
-                          <span className="stock-name">{item.product_type}</span>
-                          <div className="stock-level">
-                            <div className="stock-progress-bar">
-                              <div 
-                                className="stock-progress" 
-                                style={{ width: `${(item.qte / item.threshold) * 100}%` }}
-                              ></div>
-                            </div>
-                            <span className="stock-numbers">
-                              {item.qte}/{item.threshold} {item.unit || 'units'}
-                            </span>
-                          </div>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                
-                <div className="stock-footer">
-                  <button className="stock-report-btn">Report</button>
-                </div>
+                {loading ? (
+                  <div className="stock-loading">Loading stock data...</div>
+                ) : error ? (
+                  <div className="stock-error">{error}</div>
+                ) : (
+                  <>
+                    <div className="stock-alert-header">
+                      <div className="stock-count">{lowStockItems.length}</div>
+                      <div className="stock-label">Items running low</div>
+                    </div>
+                    
+                    <div className="stock-list">
+                      {lowStockItems.length === 0 ? (
+                        <div className="stock-empty">No items currently below threshold.</div>
+                      ) : (
+                        <ul className="stock-list-items">
+                          {lowStockItems.map(item => {
+                            const isCritical = item.qte < (item.low_threshold / 2);
+                            const percentFilled = Math.min(100, Math.max(0, (item.qte / item.low_threshold) * 100));
+                            const unit = getProductUnit(item.product_type);
+                            
+                            return (
+                              <li key={item.id} className="stock-list-item">
+                                <div className="stock-icon">
+                                  <span 
+                                    className="stock-indicator" 
+                                    style={{ backgroundColor: isCritical ? '#ef4444' : '#f59e0b' }}
+                                  ></span>
+                                </div>
+                                <div className="stock-details">
+                                  <span className="stock-name">
+                                    {/* Product ID and type */}
+                                    {item.product_type} (ID: {item.id_product})
+                                  </span>
+                                  <div className="stock-level">
+                                    <div className="stock-progress-bar">
+                                      <div 
+                                        className="stock-progress" 
+                                        style={{ 
+                                          width: `${percentFilled}%`,
+                                          backgroundColor: isCritical ? '#ef4444' : '#f59e0b' 
+                                        }}
+                                      ></div>
+                                    </div>
+                                    <span className="stock-numbers">
+                                      {item.qte}/{item.low_threshold} {unit}
+                                    </span>
+                                  </div>
+                                </div>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      )}
+                    </div>
+                    
+                    <div className="stock-footer">
+                      <button 
+                        className="stock-report-btn"
+                        onClick={() => window.location.href = '/stock'}
+                      >
+                        Manage Stock
+                      </button>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
