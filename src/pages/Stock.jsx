@@ -186,7 +186,6 @@ const Stock = () => {
                   Location {sortField === 'location' && (sortDirection === 'asc' ? '↑' : '↓')}
                 </th>
                 <th>Status</th>
-                {/* New column for threshold management */}
                 <th>Thresholds</th>
               </tr>
             </thead>
@@ -226,7 +225,6 @@ const Stock = () => {
                           </div>
                         )}
                       </td>
-                      {/* New cell for threshold display and edit button */}
                       <td>
                         <div className="threshold-values">
                           <div>Min: {item.low_threshold} {unit}</div>

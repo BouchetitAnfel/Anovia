@@ -1,5 +1,5 @@
 .sidebar {
-  width: 190px;
+  width: 180px;
   height: 100vh;
   background-color: #ffffff;
   border-right: 1px solid #e0e0e0;
@@ -15,7 +15,7 @@
 
 .sidebar-logo {
   margin-top: 3px;
-  height:70px;
+  height: 70px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -23,7 +23,6 @@
   margin-left: 15px;
   border-bottom: 1px solid #e0e0e0;
 }
-
 
 .collapse-btn {
   background: none;
@@ -71,4 +70,15 @@
 
 .sidebar.collapsed .sidebar-logo img {
   display: none;
+}
+
+.sidebar-item .lucide-clipboard,
+.sidebar-item .lucide-hotel {
+  margin-right: 10px;
+  font-size: 22px;
+}
+
+.sidebar-item.active .lucide-clipboard,
+.sidebar-item.active .lucide-hotel {
+  color: #9b5a96;
 }

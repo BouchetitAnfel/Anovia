@@ -514,3 +514,205 @@
     min-height: 300px;
   }
 }
+/* Booking Management - Receptionist Dashboard Styles */
+
+/* Make the main dashboard content take up more space */
+.dashboard-content {
+  margin-left: 70px;  /* Keep this the same to match the sidebar */
+  padding: 25px 30px; /* Increase horizontal padding */
+  max-width: 100%;    /* Ensure it can expand to full width */
+}
+
+/* Header styling */
+.booking-header {
+  margin-bottom: 25px;
+}
+
+.booking-title {
+  font-size: 28px; /* Larger font size for the header */
+  color: #9b5a96; /* Purple color from the theme */
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* Wider booking table container with styling */
+.booking-table-container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  width: 100%;         
+  max-width: 1400px;   /* Set a larger max-width */
+  margin: 0 auto 25px; /* Center the table horizontally */
+  height: 400px;       /* Make the table taller */
+}
+
+/* Table styling */
+.booking-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.booking-table thead {
+  background-color: #9b5a96; /* Purple header matching the theme */
+  color: white;
+}
+
+/* Table columns sizing with styling */
+.booking-table th {
+  padding: 10px 20px;
+  text-align: left;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.booking-table th:hover {
+  background-color: #8a4e85; /* Darker purple on hover */
+}
+
+.booking-table th:nth-child(1),
+.booking-table td:nth-child(1) {
+  width: 6%;  /* ID column */
+}
+
+.booking-table th:nth-child(2),
+.booking-table td:nth-child(2) {
+  width: 25%; /* Guest column - wider */
+}
+
+.booking-table th:nth-child(3),
+.booking-table td:nth-child(3),
+.booking-table th:nth-child(4),
+.booking-table td:nth-child(4) {
+  width: 25%; /* Date columns */
+}
+
+.booking-table th:nth-child(5),
+.booking-table td:nth-child(5) {
+  width: 20%; /* Room ID column */
+}
+
+.booking-table th:nth-child(6),
+.booking-table td:nth-child(6) {
+  width: 25%; /* Status column */
+}
+
+.booking-table tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s;
+}
+
+.booking-table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+.booking-table td {
+  padding: 12px 20px; 
+  color: #111827;
+}
+
+/* Status badges */
+.booking-status-badge {
+  display: inline-block;
+  white-space: nowrap;
+  padding: 5px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.booking-status-checkin {
+  background-color: #d1f2d1;
+  color: #10b981;
+}
+
+.booking-status-checkout {
+  background-color: #fee2e2;
+  color: #ef4444;
+}
+
+.booking-status-reserved {
+  background-color: #ffedd5;
+  color: #f59e0b;
+}
+
+.booking-status-inhouse {
+  background-color: #d1e9ff;
+  color: #3b82f6;
+}
+
+/* Sort icons */
+.booking-sort-icon {
+  margin-left: 5px;
+  display: inline-block;
+}
+
+/* Empty message */
+.booking-empty-message {
+  text-align: center;
+  padding: 30px;
+  color: #6b7280;
+}
+
+/* Action buttons with improved styling and sizing */
+.booking-actions {
+  display: flex;
+  gap: 30px;
+}
+
+.booking-modify-btn, 
+.booking-create-btn {
+  width: 250px; 
+  padding: 7px 10px;
+  font-size: 16px; 
+  border-radius: 25px;
+  font-weight: 500;
+  position: relative;
+  left: 15%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.booking-modify-btn {
+  background-color: white;
+  color: #9b5a96;
+  border: 1px solid #9b5a96;
+}
+
+.booking-modify-btn:hover {
+  background-color: #f0e6ef;
+}
+
+.booking-create-btn {
+  background-color: #9b5a96;
+  color: white;
+}
+
+.booking-create-btn:hover {
+  background-color: #8a4e85;
+}
+
+/* Responsive behavior - still keep it reasonably sized on smaller screens */
+@media (max-width: 1200px) {
+  .booking-table-container {
+    max-width: 95%;
+  }
+}
+
+@media (max-width: 992px) {
+  /* Adjust cell padding on medium screens */
+  .booking-table th, 
+  .booking-table td {
+    padding: 12px 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Stack the columns to ensure readability on mobile */
+  .booking-table th, 
+  .booking-table td {
+    padding: 10px 12px;
+  }
+} 

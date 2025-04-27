@@ -6,13 +6,13 @@ import Title from './Title.jsx';
 import { 
   LayoutDashboard, 
   Wallet, 
-  Layers, 
   Users2, 
   UserSquare2, 
   Box, 
-  Settings,
   LogOut,
-  User
+  User,
+  Hotel,
+  Clipboard
 } from 'lucide-react';
 
 const Sidebar = () => {
@@ -27,24 +27,18 @@ const Sidebar = () => {
       icon: <LayoutDashboard size={20} />, 
       text: 'Dashboard', 
       path: '/dashboard',
-      roles: ['admin', 'user', 'manager', 'staff'] 
+      roles: ['admin', 'user', 'manager', 'staff', 'receptionist']
     },
     { 
       icon: <User size={20} />, 
       text: 'Profile', 
       path: '/profile',
-      roles: ['admin', 'user', 'manager', 'staff'] 
+      roles: ['admin', 'user', 'manager', 'staff', 'receptionist'] 
     },
     { 
       icon: <Wallet size={20} />, 
       text: 'Budgets', 
       path: '/Budgets',
-      roles: ['admin'] 
-    },
-    { 
-      icon: <Layers size={20} />, 
-      text: 'Services', 
-      path: '/services',
       roles: ['admin'] 
     },
     { 
@@ -66,10 +60,16 @@ const Sidebar = () => {
       roles: ['admin']
     },
     { 
-      icon: <Settings size={20} />, 
-      text: 'Settings', 
-      path: '/settings',
-      roles: ['admin', 'manager'] 
+      icon: <Hotel size={20} />, 
+      text: 'Rooms', 
+      path: '/Rooms',
+      roles: ['receptionist']
+    },
+    { 
+      icon: <Clipboard size={20} />, 
+      text: 'Reservation', 
+      path: '/reservation',
+      roles: ['receptionist']
     }
   ];
 

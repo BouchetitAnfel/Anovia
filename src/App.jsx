@@ -9,6 +9,7 @@ import Stock from './pages/Stock';
 import Staff from './pages/Staff';
 import AccountsCreation from './pages/AccountsCreation';
 import ErrorBoundary from './components/ErrorBoundary';
+import Rooms from './pages/Rooms';
 import { AuthProvider } from './contexts/AuthContext';
 import { StockProvider } from './contexts/StockContext';
 function App() {
@@ -25,6 +26,7 @@ function App() {
           <Route path="/Profile" element={<Profile />}/>
           <Route path="/Staff" element={<Staff />}/>
           <Route path="/AccountsCreation" element={<AccountsCreation />}/>
+          <Route path="/Rooms" element={<Rooms />} />
         </Routes>
         </StockProvider>
       </AuthProvider>
