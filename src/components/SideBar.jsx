@@ -68,7 +68,7 @@ const Sidebar = () => {
     { 
       icon: <Clipboard size={20} />, 
       text: 'Reservation', 
-      path: '/reservation',
+      path: '/Reservation',
       roles: ['receptionist']
     }
   ];

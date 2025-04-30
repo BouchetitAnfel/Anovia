@@ -5,6 +5,7 @@ import '../styles/dashboard.css';
 import { useAuth } from '../contexts/AuthContext';
 import { useStock } from '../contexts/StockContext';
 import Calendar from '../components/Calendar.jsx';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 
 const Dashboard = () => {
   const { user, logout, isAdmin } = useAuth();
@@ -16,6 +17,8 @@ const Dashboard = () => {
     getProductUnit,
     alertStats 
   } = useStock();
+  
+  const navigate = useNavigate(); // Initialize the navigate function
   
   const lowStockItems = getLowStockItems();
   const criticalItems = getCriticalStockItems();
@@ -49,6 +52,11 @@ const Dashboard = () => {
       setSortField(field);
       setSortDirection('asc');
     }
+  };
+  
+  // Function to navigate to the reservation page
+  const handleNewReservation = () => {
+    navigate('/reservation');
   };
   
   // Sorted reservations for the receptionist view
@@ -207,7 +215,7 @@ const Dashboard = () => {
                       <div className="stock-footer">
                         <button 
                           className="stock-report-btn"
-                          onClick={() => window.location.href = '/stock'}
+                          onClick={() => navigate('/stock')}
                         >
                           Manage Stock
                         </button>
@@ -272,7 +280,6 @@ const Dashboard = () => {
                 <tbody>
                   {sortedReservations.length > 0 ? (
                     sortedReservations.map((reservation) => {
-                      // Determine status class based on reservation state
                       let statusClass = '';
                       switch(reservation.state) {
                         case 'Check-in':
@@ -319,7 +326,7 @@ const Dashboard = () => {
             
             <div className="booking-actions">
               <button className="booking-modify-btn">Modify Reservation</button>
-              <button className="booking-create-btn">New Reservation</button>
+              <button className="booking-create-btn" onClick={handleNewReservation}>New Reservation</button>
             </div>
           </>
         )}

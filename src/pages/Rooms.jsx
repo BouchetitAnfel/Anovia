@@ -22,6 +22,8 @@ const Rooms = () => {
     'doNotDisturb': { color: '#fbd2e7', label: 'Do Not Disturb' },
     'stayover': { color: '#bfa4fa', label: 'Stayover' }      
   };
+  
+  // Generate dates for the week
   useEffect(() => {
     const dates = [];
     const startDate = new Date(currentDate);
@@ -37,31 +39,43 @@ const Rooms = () => {
     setSelectedDate(new Date().toISOString().split('T')[0]);
   }, [currentDate]);
 
+  // Initialize rooms only once when component mounts
   useEffect(() => {
-    const sampleRooms = Array.from({ length: 15 }, (_, i) => {
-      const roomId = 100 + i;
-      const floor = Math.floor(roomId / 100);
-      const roomType = i % 3 === 0 ? 'Suite' : i % 3 === 1 ? 'Double' : 'Single';
-      const capacity = i % 3 === 0 ? 4 : i % 3 === 1 ? 2 : 1;
-      
-      const statusByDate = {};
-      visibleDates.forEach(date => {
-        const statuses = Object.keys(roomStatuses);
-        const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
-        statusByDate[date.toISOString().split('T')[0]] = randomStatus;
+    // Only initialize rooms if they haven't been initialized yet
+    if (rooms.length === 0) {
+      const sampleRooms = Array.from({ length: 15 }, (_, i) => {
+        const roomId = 100 + i;
+        const floor = Math.floor(roomId / 100);
+        const roomType = i % 3 === 0 ? 'Suite' : i % 3 === 1 ? 'Double' : 'Single';
+        const capacity = i % 3 === 0 ? 4 : i % 3 === 1 ? 2 : 1;
+        
+        // Create status entries for a broader date range (e.g., 30 days before and after today)
+        const statusByDate = {};
+        const baseDate = new Date();
+        
+        // Generate statuses for 60 days (30 before and 30 after today)
+        for (let day = -30; day <= 30; day++) {
+          const date = new Date(baseDate);
+          date.setDate(baseDate.getDate() + day);
+          const dateKey = date.toISOString().split('T')[0];
+          
+          const statuses = Object.keys(roomStatuses);
+          const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+          statusByDate[dateKey] = randomStatus;
+        }
+        
+        return {
+          id: roomId,
+          floor: floor,
+          type: roomType,
+          capacity: capacity,
+          statusByDate: statusByDate
+        };
       });
       
-      return {
-        id: roomId,
-        floor: floor,
-        type: roomType,
-        capacity: capacity,
-        statusByDate: statusByDate
-      };
-    });
-    
-    setRooms(sampleRooms);
-  }, [visibleDates]);
+      setRooms(sampleRooms);
+    }
+  }, []);  // Empty dependency array means this runs once on mount
 
   const previousWeek = () => {
     const newDate = new Date(currentDate);
@@ -187,10 +201,10 @@ const Rooms = () => {
                             >
                               <div 
                                 className="room-status-indicator" 
-                                style={{ backgroundColor: statusInfo.color }}
-                                title={statusInfo.label}
+                                style={{ backgroundColor: statusInfo?.color || '#f0f0f0' }}
+                                title={statusInfo?.label || 'Unknown'}
                               >
-                                <span className="status-label">{statusInfo.label}</span>
+                                <span className="status-label">{statusInfo?.label || 'Unknown'}</span>
                               </div>
                             </td>
                           );

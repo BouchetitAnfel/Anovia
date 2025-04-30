@@ -10,6 +10,7 @@ import Staff from './pages/Staff';
 import AccountsCreation from './pages/AccountsCreation';
 import ErrorBoundary from './components/ErrorBoundary';
 import Rooms from './pages/Rooms';
+import Reservation from './pages/Reservation';
 import { AuthProvider } from './contexts/AuthContext';
 import { StockProvider } from './contexts/StockContext';
 function App() {
@@ -27,6 +28,7 @@ function App() {
           <Route path="/Staff" element={<Staff />}/>
           <Route path="/AccountsCreation" element={<AccountsCreation />}/>
           <Route path="/Rooms" element={<Rooms />} />
+          <Route path="/Reservation" element={<Reservation />} />
         </Routes>
         </StockProvider>
       </AuthProvider>
