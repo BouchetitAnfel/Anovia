@@ -12,7 +12,7 @@ use App\Http\Controllers\API\Employees\Admins\ManageAccountController;
 
 Route::post('/login', [EmployeeAuthController::class, 'login'])->name('api.employee.login');
 Route::middleware('auth:api')->group(function () {
-    Route::get('/profile', action: [EmployeeAuthController::class, 'me']);
+    Route::get('/profile',  [EmployeeAuthController::class, 'me']);
     Route::post('/logout', [EmployeeAuthController::class, 'logout']);
 });
 
@@ -20,7 +20,8 @@ Route::middleware('auth:api')->group(function () {
 
 Route::middleware(['auth:api', RoleMiddleware::class.':admin'])->group( function(){
     Route::post('/Admin/CreateAccount', [CreateAccountController::class, 'CreateAccount']);
-    Route::post('/employees/{employeeId}', [ManageAccountController::class, 'modify']);
+    Route::post('/employees/{employeeId}/modify', [ManageAccountController::class, 'modify']);
+    Route::delete('/employees/{employee}', [ManageAccountController::class, 'delete']);
     Route::post('/Admin/Stock/AddStock', [StockManagementController::class, 'AddStock']);
     Route::get('/Admin/Stock/List' ,[StockManagementController::class, 'StockList']);
 
@@ -35,7 +36,7 @@ Route::middleware('auth:client-api')->group(function () {
     Route::post('/client/logout', [ClientAuthController::class, 'logout']);
 });
 
-route::middleware('auth:client²-api')->group(function (){
+route::middleware('auth:client-api')->group(function (){
     Route::put('/Client/UpdateProfile',[UpdateProfileController::class , 'UpdateProfile']);
     Route::post('/Client/UploadPhoto',[UpdateProfileController::class , 'Uploadphoto']);
 });

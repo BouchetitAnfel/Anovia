@@ -49,6 +49,7 @@ class EmployeeAuthController extends Controller
             'first_name' => $employee->first_name,
             'last_name' => $employee->last_name,
             'email'=>$employee->email,
+            'hire_date'=>$employee->hire_date,
             'role'=>$employee->role
         ]);
     }

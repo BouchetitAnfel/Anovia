@@ -11,19 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('stock', function (Blueprint $table) {
-            $table->integer('low_threshold')->nullable();
-            $table->integer('high_threshold')->nullable();
+        Schema::table('reservation', function (Blueprint $table) {
+            $table->enum('status', ['Available', 'Do not disturb', 'Dirty', 'Clean', 'Reserved', 'Late checkout', 'Out of order', 'Stay over', 'Occupied'])
+                ->default('Available');
         });
     }
 
     /**
-     * Reverse the migrations.
+     *
      */
     public function down(): void
     {
-        Schema::table('stock', function (Blueprint $table) {
-            //
+        Schema::table('reservation', function (Blueprint $table) {
+            $table->dropColumn('status');
         });
     }
 };

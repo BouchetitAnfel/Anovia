@@ -12,18 +12,14 @@ class ManageAccountController extends Controller
 {
     protected $employeeUpdateService;
 
-    // Inject the service in the constructor
     public function __construct(EmployeeUpdateService $employeeUpdateService)
     {
         $this->employeeUpdateService = $employeeUpdateService;
-        // Assuming you're applying your admin middleware here or in routes
-        // $this->middleware('admin');
     }
 
     public function modify(Request $request, $employeeId)
     {
-        // Find the employee to modify
-        $employee = Employee::findOrFail($employeeId);
+        $employee = Employee::where('id', $employeeId)->first();
 
         $validated = $request->validate([
             'first_name' => 'sometimes|string',
@@ -42,5 +38,15 @@ class ManageAccountController extends Controller
             'message' => 'Employee information has been updated successfully',
             'updated_information' => $updatedEmployee
         ], 200);
+    }
+
+    public function delete($employee){
+
+        $employee = Employee::findOrFail($employee);
+        $result = $this->employeeUpdateService->removeEmployee($employee);
+
+        return response()->json([
+            'message' => $result
+        ]);
     }
 }

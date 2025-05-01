@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('room_number')->unique();
             $table->enum('room_type', ['single', 'double', 'suite']);
-            $table->boolean('hors_service')->default(false);
+            $table->boolean('hors_service')->default(value: false);
             $table->decimal('price_per_night', 8, 2);
             $table->timestamps();
         });

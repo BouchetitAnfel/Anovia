@@ -26,4 +26,18 @@ class EmployeeUpdateService
         $employee->save();
         return $employee;
     }
+
+    public function RemoveEmployee(Employee $employee){
+        try{
+            $deleted = $employee->delete();
+
+        if ($deleted) {
+                return "Deleted the User with Success";
+            } else {
+                return "Failed to delete the user";
+            }
+        }catch(\Exception $e){
+            return "Employee was not deleted: " . $e->getMessage();
+        }
+    }
 }
