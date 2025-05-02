@@ -2,7 +2,10 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Database\Seeders\RoomSeeder;
+use Database\Seeders\StockSeeder;
 use Database\Seeders\ClientSeeder;
+use Database\Seeders\EmployeeSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,6 +14,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ClientSeeder::class,
             StockSeeder::class,
+            EmployeeSeeder::class,
+            RoomSeeder::class
         ]);
     }
 }

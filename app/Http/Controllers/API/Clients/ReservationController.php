@@ -35,6 +35,7 @@ class ReservationController extends Controller
             return response()->json(['message' => 'Room is not available for the selected dates'], 400);
         }
 
+
         $checkin = Carbon::parse($request->date_checkin);
         $checkout = Carbon::parse($request->date_checkout);
         $days = $checkin->diffInDays($checkout);

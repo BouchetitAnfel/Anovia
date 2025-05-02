@@ -6,13 +6,14 @@ use App\Http\Controllers\API\Clients\ClientAuthController;
 use App\Http\Controllers\API\Clients\ReservationController;
 use App\Http\Controllers\API\Clients\UpdateProfileController;
 use App\Http\Controllers\API\Employees\EmployeeAuthController;
-use App\Http\Controllers\API\Employees\Admins\CreateAccountController;
 use App\Http\Controllers\API\Employees\Admins\StockManagementController;
+use App\Http\Controllers\API\Employees\Admins\CreateAccountController;
+use App\Http\Controllers\API\Employees\Admins\ManageAccountController;
 
 Route::post('/login', [EmployeeAuthController::class, 'login'])->name('api.employee.login');
 
 Route::middleware('auth:api')->group(function () {
-    Route::get('/profile', action: [EmployeeAuthController::class, 'me']);
+    Route::get('/profile',  [EmployeeAuthController::class, 'me']);
     Route::post('/logout', [EmployeeAuthController::class, 'logout']);
     Route::put('/profile/update', [EmployeeAuthController::class, 'updateProfile']);
 
@@ -20,11 +21,13 @@ Route::middleware('auth:api')->group(function () {
 
 
 
-
 Route::middleware(['auth:api', RoleMiddleware::class.':admin'])->group( function(){
     Route::post('/Admin/CreateAccount', [CreateAccountController::class, 'CreateAccount']);
+    Route::post('/employees/{employeeId}/modify', [ManageAccountController::class, 'modify']);
+    Route::delete('/employees/{employee}', [ManageAccountController::class, 'delete']);
     Route::post('/Admin/Stock/AddStock', [StockManagementController::class, 'AddStock']);
     Route::get('/Admin/Stock/List' ,[StockManagementController::class, 'StockList']);
+
 });
 
 

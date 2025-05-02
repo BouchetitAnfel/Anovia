@@ -35,7 +35,6 @@ class StockManagementController extends Controller{
             'high_threshold' => 'nullable|integer',
         ]);
 
-        // Get thresholds based on product type if not provided
         if (!isset($validated['low_threshold']) || !isset($validated['high_threshold'])) {
             $thresholds = $this->getThresholdsByProductType($validated['product_type']);
             $validated['low_threshold'] = $validated['low_threshold'] ?? $thresholds['low'];
