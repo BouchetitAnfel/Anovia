@@ -40,4 +40,9 @@ class EmployeeUpdateService
             return "Employee was not deleted: " . $e->getMessage();
         }
     }
+    public function getAllEmployees()
+    {
+        return Employee::all();
+    }
+
 }
