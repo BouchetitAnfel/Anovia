@@ -16,6 +16,7 @@ class Room extends Model
         'room_type',
         'hors_service',
         'price_per_night',
+        'room_state'
     ];
 
     public function reservations()

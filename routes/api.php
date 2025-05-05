@@ -9,6 +9,7 @@ use App\Http\Controllers\API\Employees\EmployeeAuthController;
 use App\Http\Controllers\API\Employees\Admins\CreateAccountController;
 use App\Http\Controllers\API\Employees\Admins\ManageAccountController;
 use App\Http\Controllers\API\Employees\Admins\StockManagementController;
+use App\Http\Controllers\Api\Employees\Housekeeper\ManageRoomsController;
 use App\Http\Controllers\Api\Employees\Receptionist\ReservationManagement;
 
 //employee
@@ -42,6 +43,12 @@ Route::middleware(['auth:api', RoleMiddleware::class.':receptionist'])->group(fu
     Route::delete('/reservations/{id}/delete', [ReservationManagement::class, 'delete']);
     Route::post('/reservations/create' ,[ReservationManagement::class,'create']);
     Route::get('/rooms',[ReservationManagement::class,'RoomsList']);
+});
+
+//housekeeper
+Route::middleware(['auth:api', RoleMiddleware::class . ':housekeeper'])->group(function () {
+    Route::get('/Housekeeper/rooms', [ManageRoomsController::class, 'List']);
+    Route::put('/rooms/{roomId}/state', [ManageRoomsController::class, 'updateState']);
 });
 
 
