@@ -15,6 +15,7 @@ class RoomFactory extends Factory
             'room_type' => $this->faker->randomElement(['single', 'double', 'suite']),
             'hors_service' => $this->faker->boolean(),
             'price_per_night' => $this->faker->numberBetween(50, 500),
+            'room_state' => $this->faker->randomElement(['Available' , 'Do not distrub' , 'Dirty' , 'Clean' , 'Reserved' , 'Late to checkout' , 'Out of order' , 'Stay over' , 'Occupied'])
         ];
     }
 }

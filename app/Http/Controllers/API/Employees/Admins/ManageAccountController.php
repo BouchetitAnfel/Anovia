@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API\Employees\Admins;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Employee; // Make sure this import matches your model's actual namespace
+use App\Models\Employee;
 use App\Services\EmployeeUpdateService;
 
 class ManageAccountController extends Controller
@@ -40,13 +40,22 @@ class ManageAccountController extends Controller
         ], 200);
     }
 
-    public function delete($employee){
+    public function delete($employeeId){
 
-        $employee = Employee::findOrFail($employee);
-        $result = $this->employeeUpdateService->removeEmployee($employee);
+        $employeeId = Employee::find($employeeId);
+        $result = $this->employeeUpdateService->removeEmployee($employeeId);
 
         return response()->json([
             'message' => $result
+        ]);
+    }
+
+    public function listemployees(){
+        $employees = $this->employeeUpdateService->getAllEmployees();
+
+        return response()->json([
+            'success' => true,
+            'The employees' => $employees
         ]);
     }
 }

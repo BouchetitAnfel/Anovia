@@ -15,7 +15,7 @@ class Reservation extends Model
         'receptionist_id',
         'reservation_status',
         'total_price',
-        'Room_state'
+        'room_state'
     ];
 
     public function client()
