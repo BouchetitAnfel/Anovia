@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Factories;
 
 use App\Models\Room;
@@ -10,12 +11,30 @@ class RoomFactory extends Factory
 
     public function definition()
     {
+        static $usedRoomNumbers = [];
+
+        do {
+            $room_number = $this->faker->numberBetween(100, 999);
+        } while (in_array($room_number, $usedRoomNumbers));
+
+        $usedRoomNumbers[] = $room_number;
+
         return [
-            'room_number' => $this->faker->unique()->numberBetween(100, 999),
+            'room_number' => $room_number,
             'room_type' => $this->faker->randomElement(['single', 'double', 'suite']),
             'hors_service' => $this->faker->boolean(),
             'price_per_night' => $this->faker->numberBetween(50, 500),
-            'room_state' => $this->faker->randomElement(['Available' , 'Do not distrub' , 'Dirty' , 'Clean' , 'Reserved' , 'Late to checkout' , 'Out of order' , 'Stay over' , 'Occupied'])
+            'room_state' => $this->faker->randomElement([
+                'Available',
+                'Do not distrub',
+                'Dirty',
+                'Clean',
+                'Reserved',
+                'Late to checkout',
+                'Out of order',
+                'Stay over',
+                'Occupied'
+            ]),
         ];
     }
 }
