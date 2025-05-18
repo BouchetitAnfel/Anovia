@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/NavigationBar.css';
 import { 
@@ -14,27 +14,53 @@ const NavigationBar = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  const handleProfileClick = () => {
-    navigate('/profile');
-  };
+  const handleProfileClick = useCallback((e) => {
+    e?.preventDefault?.();
+    e?.stopPropagation?.();
+    
+    if (!user?.id) {
+      console.error("Cannot navigate - no user ID");
+      return;
+    }
+  
+    const profilePath = `/Profile/${user.id}`;
+    console.log("Navigating to:", profilePath);
+    
+    navigate(profilePath, {
+      replace: false,
+      state: { 
+        from: 'navbar',
+        employeeData: {
+          id: user.id,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          email: user.email,
+          role: user.role,
+          active: true,
+          hire_date: user.hire_date,
+          address: user.address,
+          ccp: user.ccp
+        }
+      }
+    });
+  }, [user, navigate]);
 
   const getInitials = () => {
     if (user?.first_name && user?.last_name) {
-      return `${user.first_name[0]}${user.last_name[0]}`;
+      return `${user.first_name[0]}${user.last_name[0]}`.toUpperCase();
     }
-    return 'SD';  
+    return 'GU'; // Default for Guest User
   };
 
   const getFullName = () => {
     if (user?.first_name && user?.last_name) {
       return `${user.first_name} ${user.last_name}`;
     }
-    return "Some Dude"; 
+    return user?.email || "Guest User";
   };
 
   return (
     <div className="top-navigation-bar">
-      
       <div className="search-container">
         <div className="relative w-full">
           <input  
@@ -51,20 +77,26 @@ const NavigationBar = () => {
       
       <div className="nav-right">
         <div className="nav-icons">
-          <CalendarCheck size={20} />
-          <MessageSquare size={20} />
-          <Bell size={20} />
+          <CalendarCheck size={20} className="nav-icon" />
+          <MessageSquare size={20} className="nav-icon" />
+          <Bell size={20} className="nav-icon" />
         </div>
         
-        <div className="user-profile" onClick={handleProfileClick}>
+        <div 
+          className="user-profile clickable"
+          onClick={handleProfileClick}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => e.key === 'Enter' && handleProfileClick(e)}
+        >
           <div className="user-info">
             <div className="user-name">{getFullName()}</div>
-            <div className="user-role">{user?.role || "Admin"}</div>
+            <div className="user-role">{user?.role || "Guest"}</div>
           </div>
           <div className="profile-circle">
             {getInitials()}
           </div>
-          <ChevronDown size={16} />
+          <ChevronDown size={16} className="dropdown-icon" />
         </div>
       </div>
     </div>

@@ -1,137 +1,175 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import SideBar from "../components/SideBar";
 import NavigationBar from '../components/NavigationBar';
 import '../styles/Staff.css';
 import { useAuth } from '../contexts/AuthContext';
+import api from '../api';
+import { Modal, Button } from 'react-bootstrap';
 
 const Staff = () => {
-  const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState('all');
-  const [staffData, setStaffData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+    const navigate = useNavigate();
+    const { user } = useAuth();
+    const [activeTab, setActiveTab] = useState('all');
+    const [staffData, setStaffData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [deletionError, setDeletionError] = useState(null);
+  
+    const roles = ['all', 'admin', 'manager', 'receptionist', 'housekeeper', 'maintenance'];
+    const isAdmin = user && user.role === 'admin';
+  const staticStaffData = [
+    {
+      id: "S001",
+      first_name: "John",
+      last_name: "Smith",
+      email: "john.smith@hotel.com",
+      role: "manager",
+      active: true
+    },
+    {
+      id: "S002",
+      first_name: "Emily",
+      last_name: "Johnson",
+      email: "emily.j@hotel.com",
+      role: "receptionist",
+      active: true
+    },
+    {
+      id: "S003",
+      first_name: "Michael",
+      last_name: "Brown",
+      email: "michael.b@hotel.com",
+      role: "maintenance",
+      active: true
+    },
+    {
+      id: "S004",
+      first_name: "Sarah",
+      last_name: "Davis",
+      email: "sarah.d@hotel.com",
+      role: "housekeeper",
+      active: true
+    },
+    {
+      id: "S005",
+      first_name: "Robert",
+      last_name: "Wilson",
+      email: "robert.w@hotel.com",
+      role: "manager",
+      active: false
+    },
+    {
+      id: "S006",
+      first_name: "Jessica",
+      last_name: "Taylor",
+      email: "jessica.t@hotel.com",
+      role: "receptionist",
+      active: true
+    },
+    {
+      id: "S007",
+      first_name: "David",
+      last_name: "Thomas",
+      email: "david.t@hotel.com",
+      role: "maintenance",
+      active: false
+    },
+    {
+      id: "S008",
+      first_name: "Jennifer",
+      last_name: "Martinez",
+      email: "jennifer.m@hotel.com",
+      role: "housekeeper",
+      active: true
+    },
+    {
+      id: "S009",
+      first_name: "James",
+      last_name: "Anderson",
+      email: "james.a@hotel.com",
+      role: "receptionist",
+      active: true
+    },
+    {
+      id: "S010",
+      first_name: "Lisa",
+      last_name: "Jackson",
+      email: "lisa.j@hotel.com",
+      role: "housekeeper",
+      active: true
+    }
+  ];
 
-  const roles = ['all', 'manager', 'receptionist', 'housekeeping', 'maintenance'];
-
-const staticStaffData = [
-  {
-    id: "S001",
-    first_name: "John",
-    last_name: "Smith",
-    email: "john.smith@hotel.com",
-    role: "Manager",
-    active: true
-  },
-  {
-    id: "S002",
-    first_name: "Emily",
-    last_name: "Johnson",
-    email: "emily.j@hotel.com",
-    role: "Receptionist",
-    active: true
-  },
-  {
-    id: "S003",
-    first_name: "Michael",
-    last_name: "Brown",
-    email: "michael.b@hotel.com",
-    role: "Maintenance",
-    active: true
-  },
-  {
-    id: "S004",
-    first_name: "Sarah",
-    last_name: "Davis",
-    email: "sarah.d@hotel.com",
-    role: "Housekeeping",
-    active: true
-  },
-  {
-    id: "S005",
-    first_name: "Robert",
-    last_name: "Wilson",
-    email: "robert.w@hotel.com",
-    role: "Manager",
-    active: false
-  },
-  {
-    id: "S006",
-    first_name: "Jessica",
-    last_name: "Taylor",
-    email: "jessica.t@hotel.com",
-    role: "Receptionist",
-    active: true
-  },
-  {
-    id: "S007",
-    first_name: "David",
-    last_name: "Thomas",
-    email: "david.t@hotel.com",
-    role: "Maintenance",
-    active: false
-  },
-  {
-    id: "S008",
-    first_name: "Jennifer",
-    last_name: "Martinez",
-    email: "jennifer.m@hotel.com",
-    role: "Housekeeping",
-    active: true
-  },
-  {
-    id: "S009",
-    first_name: "James",
-    last_name: "Anderson",
-    email: "james.a@hotel.com",
-    role: "Receptionist",
-    active: true
-  },
-  {
-    id: "S010",
-    first_name: "Lisa",
-    last_name: "Jackson",
-    email: "lisa.j@hotel.com",
-    role: "Housekeeping",
-    active: true
-  }
-];
-/*
   useEffect(() => {
-    const fetchStaffData = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch('/api/staff/list', {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          }
-        });
+    fetchEmployees();
+  }, []);
+
+  const fetchEmployees = async () => {
+    try {
+      setIsLoading(true);
+      const response = await api.get('/employees/Listemployees');
+      
+      if (response.data && response.data.success) {
+        const transformedData = response.data['The employees'].map(emp => ({
+          id: emp.id,
+          first_name: emp.first_name,
+          last_name: emp.last_name,
+          email: emp.email,
+          role: emp.role || 'employee', 
+          active: true, 
+          hire_date: emp.hire_date,
+          address: emp.adresse || emp.address,
+          ccp: emp.ccp
+        }));
         
-        if (!response.ok) {
-          throw new Error('Failed to fetch staff data');
-        }
-        
-        const data = await response.json();
-        setStaffData(data);
-        setIsLoading(false);
-      } catch (error) {
-        setError(error.message);
-        setIsLoading(false);
+        setStaffData(transformedData);
+      } else {
+        throw new Error('Failed to fetch employee data');
       }
-    };
-
-    fetchStaffData();
-  }, []);
-  */
-  useEffect(() => {
-    setIsLoading(true);
-    
-    const timer = setTimeout(() => {
+    } catch (error) {
+      console.error('Error fetching employees:', error);
       setStaffData(staticStaffData);
+      setError('Failed to load employee data from API. Using sample data instead.');
+    } finally {
       setIsLoading(false);
-    }, 800); 
-    
-    return () => clearTimeout(timer);
-  }, []);
+    }
+  };
+
+  const handleDeleteEmployee = async (id) => {
+    try {
+      await api.delete(`/employees/${id}`);
+      setStaffData(prevData => prevData.filter(emp => emp.id !== id));
+      setDeletionError(null);
+    } catch (error) {
+      console.error('Error deleting employee:', error);
+      setDeletionError('Failed to delete employee. Please try again.');
+      setTimeout(() => setDeletionError(null), 3000);
+    }
+  };
+
+  const handleNewEmployee = () => {
+    navigate('/AccountsCreation'); 
+  };
+
+  const navigateToProfile = (employee) => {
+    navigate(`/Profile/${employee.id}`, {
+      state: {
+        employeeData: {
+          id: employee.id,
+          first_name: employee.first_name,
+          last_name: employee.last_name,
+          email: employee.email,
+          role: employee.role,
+          active: employee.active,
+          hire_date: employee.hire_date,
+          address: employee.address,
+          ccp: employee.ccp
+        }
+      }
+    });
+  };
+
   const getFilteredStaff = () => {
     if (activeTab === 'all') {
       return staffData;
@@ -144,7 +182,7 @@ const staticStaffData = [
   const getStaffStats = () => {
     const totalStaff = staffData.length;
     const activeStaff = staffData.filter(staff => staff.active).length;
-
+    
     return [
       {
         title: 'Total Staff',
@@ -171,17 +209,33 @@ const staticStaffData = [
         <div className="staff-content-inner">
           <div className="staff-header">
             <h2>Staff Directory</h2>
+            {isAdmin && (
+              <button 
+                onClick={handleNewEmployee}
+                className="new-employee-btn"
+              >
+                New Employee
+              </button>
+            )}
           </div>
+
+          {deletionError && (
+            <div className="error-message">
+              {deletionError}
+            </div>
+          )}
 
           <div className="staff-summary">
             {summaryCards.map((card, index) => (
               <div className="staff-card" key={index}>
                 <h3 className="card-title">{card.title}</h3>
                 <div className="card-value">{card.value}</div>
-                <div className={`card-change ${card.isPositive ? 'positive' : 'negative'}`}>
-                  <span className="card-change-icon">{card.isPositive ? '↑' : '↓'}</span>
-                  <span>{card.change} Since last month</span>
-                </div>
+                {card.change && (
+                  <div className={`card-change ${card.isPositive ? 'positive' : 'negative'}`}>
+                    <span className="card-change-icon">{card.isPositive ? '↑' : '↓'}</span>
+                    <span>{card.change} Since last month</span>
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -215,6 +269,7 @@ const staticStaffData = [
                       <th>Email</th>
                       <th>Role</th>
                       <th>Status</th>
+                      {isAdmin && <th>Actions</th>}
                     </tr>
                   </thead>
                   <tbody>
@@ -235,11 +290,27 @@ const staticStaffData = [
                               <span>{staff.active ? 'Active' : 'Inactive'}</span>
                             </div>
                           </td>
+                          {isAdmin && (
+                            <td className="action-buttons">
+                              <button 
+                                className="edit-btn"
+                                onClick={() => navigateToProfile(staff)}
+                              >
+                                Edit
+                              </button>
+                              <button 
+                                className="delete-btn"
+                                onClick={() => handleDeleteEmployee(staff.id)}
+                              >
+                                Delete
+                              </button>
+                            </td>
+                          )}
                         </tr>
                       ))
                     ) : (
                       <tr>
-                        <td colSpan="5" className="no-data">No staff members found for this role</td>
+                        <td colSpan={isAdmin ? "6" : "5"} className="no-data">No staff members found for this role</td>
                       </tr>
                     )}
                   </tbody>

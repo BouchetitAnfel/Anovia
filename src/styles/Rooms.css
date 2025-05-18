@@ -23,10 +23,13 @@
 }
 
 .rooms-title {
-  font-size: 28px;
+  font-size:2rem;
   color: #9b5a96;
-  font-weight: 600;
-  margin: 0;
+  font-weight: 500;
+  padding-top: 0;
+  position: relative;
+  bottom: 0px;
+  left: 30px;
 }
 
 .date-navigation {

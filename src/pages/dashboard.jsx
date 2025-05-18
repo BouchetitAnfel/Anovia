@@ -5,7 +5,7 @@ import '../styles/dashboard.css';
 import { useAuth } from '../contexts/AuthContext';
 import { useStock } from '../contexts/StockContext';
 import Calendar from '../components/Calendar.jsx';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const { user, logout, isAdmin } = useAuth();
@@ -18,20 +18,18 @@ const Dashboard = () => {
     alertStats 
   } = useStock();
   
-  const navigate = useNavigate(); // Initialize the navigate function
+  const navigate = useNavigate();
   
   const lowStockItems = getLowStockItems();
   const criticalItems = getCriticalStockItems();
 
-  // Staff members for admin dashboard
   const staffMembers = [
     { id: 1, name: 'Hadil Benzaid', status: 'active' },
     { id: 2, name: 'Bouchetit Anfel', status: 'active' },
     { id: 3, name: 'Benghorieb Anfel', status: 'inactive' },
   ];
 
-  // Receptionist dashboard data and state
-  // Static reservation data for the receptionist view
+  
   const [reservations] = React.useState([
     { id: 1, guest: 'John Doe', checkIn: '2025-04-20', checkOut: '2025-04-25', roomId: 101, state: 'Check-in' },
     { id: 2, guest: 'Jane Smith', checkIn: '2025-04-18', checkOut: '2025-04-23', roomId: 204, state: 'In-house' },
@@ -40,11 +38,9 @@ const Dashboard = () => {
     { id: 5, guest: 'Michael Wilson', checkIn: '2025-04-22', checkOut: '2025-04-24', roomId: 203, state: 'In-house' },
   ]);
   
-  // Sort state for receptionist table
   const [sortField, setSortField] = React.useState('id');
   const [sortDirection, setSortDirection] = React.useState('asc');
   
-  // Sort handler for receptionist table
   const handleSort = (field) => {
     if (field === sortField) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
@@ -54,12 +50,10 @@ const Dashboard = () => {
     }
   };
   
-  // Function to navigate to the reservation page
   const handleNewReservation = () => {
     navigate('/reservation');
   };
   
-  // Sorted reservations for the receptionist view
   const sortedReservations = React.useMemo(() => {
     return [...reservations].sort((a, b) => {
       let valueA = a[sortField];
@@ -74,6 +68,62 @@ const Dashboard = () => {
       return sortDirection === 'asc' ? valueA - valueB : valueB - valueA;
     });
   }, [reservations, sortField, sortDirection]);
+  
+  const [rooms, setRooms] = React.useState([
+    { id: 101, type: 'Standard', status: 'Dirty', team: 'Team A', floor: 1, lastCleaned: '2025-04-28' },
+    { id: 102, type: 'Deluxe', status: 'Clean', team: 'Team A', floor: 1, lastCleaned: '2025-05-01' },
+    { id: 103, type: 'Suite', status: 'Out of Order', team: 'Team B', floor: 1, lastCleaned: '2025-04-25' },
+    { id: 201, type: 'Standard', status: 'Clean', team: 'Team B', floor: 2, lastCleaned: '2025-05-01' },
+    { id: 202, type: 'Standard', status: 'Dirty', team: 'Team A', floor: 2, lastCleaned: '2025-04-27' },
+    { id: 203, type: 'Suite', status: 'Clean', team: 'Team C', floor: 2, lastCleaned: '2025-05-02' },
+    { id: 301, type: 'Deluxe', status: 'Out of Order', team: 'Team C', floor: 3, lastCleaned: '2025-04-20' },
+    { id: 302, type: 'Standard', status: 'Dirty', team: 'Team B', floor: 3, lastCleaned: '2025-04-30' },
+    { id: 303, type: 'Suite', status: 'Dirty', team: 'Team A', floor: 3, lastCleaned: '2025-04-29' },
+  ]);
+  
+  const [expandedRoom, setExpandedRoom] = React.useState(null);
+  const [filterTeam, setFilterTeam] = React.useState('All Teams');
+  const [filterStatus, setFilterStatus] = React.useState('All Status');
+  const [filterFloor, setFilterFloor] = React.useState('All Floors');
+  
+  const toggleRoomExpand = (roomId) => {
+    setExpandedRoom(expandedRoom === roomId ? null : roomId);
+  };
+  
+  const updateRoomStatus = (roomId, newStatus) => {
+    console.log(`Updated room ${roomId} status to ${newStatus}`);
+    
+    setRooms(rooms.map(room => 
+      room.id === roomId ? { 
+        ...room, 
+        status: newStatus, 
+        lastCleaned: newStatus === 'Clean' ? '2025-05-02' : room.lastCleaned 
+      } : room
+    ));
+  };
+  
+  const filteredRooms = React.useMemo(() => {
+    return rooms.filter(room => {
+      const teamMatch = filterTeam === 'All Teams' || room.team === filterTeam;
+      const statusMatch = filterStatus === 'All Status' || room.status === filterStatus;
+      const floorMatch = filterFloor === 'All Floors' || room.floor === parseInt(filterFloor);
+      return teamMatch && statusMatch && floorMatch;
+    });
+  }, [rooms, filterTeam, filterStatus, filterFloor]);
+  
+  const teams = ['All Teams', ...new Set(rooms.map(room => room.team))];
+  const statuses = ['All Status', 'Clean', 'Dirty', 'Out of Order'];
+  const floors = ['All Floors', ...new Set(rooms.map(room => room.floor))];
+  
+  const roomStatusCounts = React.useMemo(() => {
+    const counts = { Clean: 0, Dirty: 0, 'Out of Order': 0 };
+    filteredRooms.forEach(room => {
+      if (counts[room.status] !== undefined) {
+        counts[room.status]++;
+      }
+    });
+    return counts;
+  }, [filteredRooms]);
 
   if (!user) {
     return (
@@ -239,42 +289,12 @@ const Dashboard = () => {
               <table className="booking-table">
                 <thead>
                   <tr>
-                    <th onClick={() => handleSort('id')}>
-                      ID {sortField === 'id' && 
-                          <span className="booking-sort-icon">
-                            {sortDirection === 'asc' ? '↑' : '↓'}
-                          </span>}
-                    </th>
-                    <th onClick={() => handleSort('guest')}>
-                      Guest {sortField === 'guest' && 
-                             <span className="booking-sort-icon">
-                               {sortDirection === 'asc' ? '↑' : '↓'}
-                             </span>}
-                    </th>
-                    <th onClick={() => handleSort('checkIn')}>
-                      Check-In {sortField === 'checkIn' && 
-                                <span className="booking-sort-icon">
-                                  {sortDirection === 'asc' ? '↑' : '↓'}
-                                </span>}
-                    </th>
-                    <th onClick={() => handleSort('checkOut')}>
-                      Check-Out {sortField === 'checkOut' && 
-                                 <span className="booking-sort-icon">
-                                   {sortDirection === 'asc' ? '↓' : '↑'}
-                                 </span>}
-                    </th>
-                    <th onClick={() => handleSort('roomId')}>
-                      Room ID {sortField === 'roomId' && 
-                               <span className="booking-sort-icon">
-                                 {sortDirection === 'asc' ? '↑' : '↓'}
-                               </span>}
-                    </th>
-                    <th onClick={() => handleSort('state')}>
-                      Status {sortField === 'state' && 
-                              <span className="booking-sort-icon">
-                                {sortDirection === 'asc' ? '↑' : '↓'}
-                              </span>}
-                    </th>
+                    <th onClick={() => handleSort('id')}>ID</th>
+                    <th onClick={() => handleSort('guest')}>Guest</th>
+                    <th onClick={() => handleSort('checkIn')}>Check-In</th>
+                    <th onClick={() => handleSort('checkOut')}>Check-Out</th>
+                    <th onClick={() => handleSort('roomId')}>Room ID</th>
+                    <th onClick={() => handleSort('state')}>Status</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -331,10 +351,200 @@ const Dashboard = () => {
           </>
         )}
         
+        {/* Housekeeper Dashboard */}
+        {user.role === 'housekeeper' && (
+          <>
+            <div className="rooms-header">
+            <h2 className="rooms-title">Housekeeping Management</h2>
+              <div className="housekeeper-filters">
+                <select 
+                  className="housekeeper-filter" 
+                  value={filterTeam} 
+                  onChange={(e) => setFilterTeam(e.target.value)}
+                >
+                  {teams.map(team => (
+                    <option key={team} value={team}>{team}</option>
+                  ))}
+                </select>
+                <select 
+                  className="housekeeper-filter" 
+                  value={filterStatus} 
+                  onChange={(e) => setFilterStatus(e.target.value)}
+                >
+                  {statuses.map(status => (
+                    <option key={status} value={status}>{status}</option>
+                  ))}
+                </select>
+                <select 
+                  className="housekeeper-filter" 
+                  value={filterFloor} 
+                  onChange={(e) => setFilterFloor(e.target.value)}
+                >
+                  {floors.map(floor => (
+                    <option key={floor} value={floor}>
+                      {floor === 'All Floors' ? floor : `Floor ${floor}`}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          
+            <div className="housekeeper-stats">
+              <div className="housekeeper-stat-card">
+                <div className="housekeeper-stat-value">{roomStatusCounts.Clean}</div>
+                <div className="housekeeper-stat-label">Clean</div>
+              </div>
+              <div className="housekeeper-stat-card">
+                <div className="housekeeper-stat-value">{roomStatusCounts.Dirty}</div>
+                <div className="housekeeper-stat-label">Dirty</div>
+              </div>
+              <div className="housekeeper-stat-card">
+                <div className="housekeeper-stat-value">{roomStatusCounts['Out of Order']}</div>
+                <div className="housekeeper-stat-label">Out of Order</div>
+              </div>
+            </div>
+            
+            <div className="rooms-table-container">
+              <table className="rooms-table">
+                <thead>
+                  <tr>
+                    <th className="room-header">Room</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Team</th>
+                    <th>Floor</th>
+                    <th>Last Cleaned</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredRooms.map(room => {
+                    const isExpanded = expandedRoom === room.id;
+                    
+                    // Determine status styling
+                    let statusClass = '';
+                    if (room.status === 'Clean') {
+                      statusClass = 'room-status-indicator';
+                    } else if (room.status === 'Dirty') {
+                      statusClass = 'room-status-indicator';
+                    } else if (room.status === 'Out of Order') {
+                      statusClass = 'room-status-indicator';
+                    }
+                    
+                    return (
+                      <React.Fragment key={room.id}>
+                        <tr 
+                          className={`room-row ${isExpanded ? 'expanded' : ''}`}
+                          onClick={() => toggleRoomExpand(room.id)}
+                        >
+                          <td>
+                            <div className="room-id-container">
+                              <span className="room-number">{room.id}</span>
+                            </div>
+                          </td>
+                          <td>{room.type}</td>
+                          <td className="room-status-cell">
+                            <div 
+                              className={statusClass} 
+                              title={room.status}
+                            >
+                              <span className="status-label">{room.status}</span>
+                            </div>
+                          </td>
+                          <td>{room.team}</td>
+                          <td>Floor {room.floor}</td>
+                          <td>{room.lastCleaned}</td>
+                        </tr>
+                        
+                        {isExpanded && (
+                          <tr className="room-details-row">
+                            <td colSpan="6">
+                              <div className="room-details">
+                                <div className="room-info">
+                                  <div className="info-group">
+                                    <span className="info-label">Room Number</span>
+                                    <span className="info-value">{room.id}</span>
+                                  </div>
+                                  <div className="info-group">
+                                    <span className="info-label">Room Type</span>
+                                    <span className="info-value">{room.type}</span>
+                                  </div>
+                                  <div className="info-group">
+                                    <span className="info-label">Current Status</span>
+                                    <span className="info-value">{room.status}</span>
+                                  </div>
+                                  <div className="info-group">
+                                    <span className="info-label">Assigned Team</span>
+                                    <span className="info-value">{room.team}</span>
+                                  </div>
+                                  <div className="info-group">
+                                    <span className="info-label">Last Cleaned</span>
+                                    <span className="info-value">{room.lastCleaned}</span>
+                                  </div>
+                                </div>
+                                <div className="room-actions">
+                                  <h4 className="room-actions-title">Update Room Status</h4>
+  
+                                  <div className="status-buttons-container">
+                                    <div className="status-button-row">
+                                      <button 
+                                         className="status-change-btn" 
+                                        style={{ backgroundColor: '#d1f2d1', color: '#10b981' }}
+                                        onClick={() => updateRoomStatus(room.id, 'Clean')}
+                                      >
+                                        Clean
+                                      </button>
+                                      <button 
+                                        className="status-change-btn" 
+                                        style={{ backgroundColor: '#fee2e2', color: '#ef4444' }}
+                                        onClick={() => updateRoomStatus(room.id, 'Dirty')}
+                                      >
+                                        Dirty
+                                      </button>
+                                      <button 
+                                        className="status-change-btn" 
+                                        style={{ backgroundColor: '#f3f4f6', color: '#6b7280' }}
+                                        onClick={() => updateRoomStatus(room.id, 'Out of Order')}
+                                      >
+                                        Out of Order
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                      </React.Fragment>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+            
+            <div className="rooms-legend">
+              <h4 className="legend-title">Status Legend</h4>
+              <div className="legend-items">
+                <div className="legend-item">
+                  <div className="legend-color" style={{ backgroundColor: '#d1f2d1' }}></div>
+                  <span className="legend-label">Clean</span>
+                </div>
+                <div className="legend-item">
+                  <div className="legend-color" style={{ backgroundColor: '#dda3a3' }}></div>
+                  <span className="legend-label">Dirty</span>
+                </div>
+                <div className="legend-item">
+                  <div className="legend-color" style={{ backgroundColor: '#f3f4f6' }}></div>
+                  <span className="legend-label">Out of Order</span>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+        
         {/* Unauthorized users */}
-        {user && !isAdmin() && user.role !== 'receptionist' && (
+        {user && !isAdmin() && user.role !== 'receptionist' && user.role !== 'housekeeper' && (
           <div className="unauthorized-message">
-            You don't have permission to view the dashboard. This area is restricted to administrators and receptionists only.
+            You don't have permission to view the dashboard. This area is restricted to administrators, receptionists, and housekeepers only.
           </div>
         )}
       </div>

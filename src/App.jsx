@@ -13,23 +13,24 @@ import Rooms from './pages/Rooms';
 import Reservation from './pages/Reservation';
 import { AuthProvider } from './contexts/AuthContext';
 import { StockProvider } from './contexts/StockContext';
+
 function App() {
   return (
     <ErrorBoundary>
       <AuthProvider>
-      <StockProvider>
-        <Routes>
-          <Route path="/" element={<Welcome />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/dashboard"  element={<Dashboard />}/>
-          <Route path="/stock"  element={<Stock />}/>
-          <Route path="/Budgets" element={<Budgets />}/>
-          <Route path="/Profile" element={<Profile />}/>
-          <Route path="/Staff" element={<Staff />}/>
-          <Route path="/AccountsCreation" element={<AccountsCreation />}/>
-          <Route path="/Rooms" element={<Rooms />} />
-          <Route path="/Reservation" element={<Reservation />} />
-        </Routes>
+        <StockProvider>
+            <Routes>
+              <Route path="/" element={<Welcome />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/stock" element={<Stock />} />
+              <Route path="/Budgets" element={<Budgets />} />
+              <Route path="/Profile/:id" element={<Profile />} />
+              <Route path="/Staff" element={<Staff />} />
+              <Route path="/AccountsCreation" element={<AccountsCreation />} />
+              <Route path="/Rooms" element={<Rooms />} />
+              <Route path="/Reservation" element={<Reservation />} />
+            </Routes>
         </StockProvider>
       </AuthProvider>
     </ErrorBoundary>

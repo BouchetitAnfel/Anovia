@@ -27,13 +27,13 @@ const Sidebar = () => {
       icon: <LayoutDashboard size={20} />, 
       text: 'Dashboard', 
       path: '/dashboard',
-      roles: ['admin', 'user', 'manager', 'staff', 'receptionist']
+      roles: ['admin', 'user', 'manager', 'staff', 'receptionist', 'housekeeper']
     },
     { 
       icon: <User size={20} />, 
       text: 'Profile', 
-      path: '/profile',
-      roles: ['admin', 'user', 'manager', 'staff', 'receptionist'] 
+      path: user?.id ? `/Profile/${user.id}` : '/Profile',
+      roles: ['admin', 'user', 'manager', 'staff', 'receptionist', 'housekeeper'] 
     },
     { 
       icon: <Wallet size={20} />, 
@@ -96,7 +96,26 @@ const Sidebar = () => {
 
   const handleItemClick = (item) => {
     setActiveItem(item.text);
-    navigate(item.path);
+    
+    if (item.text === 'Profile' && user?.id) {
+      navigate(`/Profile/${user.id}`, {
+        state: {
+          employeeData: {
+            id: user.id,
+            first_name: user.first_name || "",
+            last_name: user.last_name || "",
+            email: user.email || "",
+            role: user.role || "",
+            active: true,
+            hire_date: user.hire_date || "",
+            address: user.address || "",
+            ccp: user.ccp || ""
+          }
+        }
+      });
+    } else {
+      navigate(item.path);
+    }
   };
   
   const handleLogout = async () => {
